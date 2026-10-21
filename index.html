@@ -1,0 +1,1500 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriAdmin | Agriculture Dashboard</title>
+
+  <!-- React libraries -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root {
+      --green: #27834a;
+      --dark: #173d29;
+      --light: #e8f5e9;
+      --bg: #f1f6f1;
+      --text: #24342a;
+      --muted: #748278;
+      --border: #e2ebe2;
+      --card-shadow: 0 10px 26px rgba(32, 70, 43, .07), 0 2px 5px rgba(32, 70, 43, .04);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Noto Sans Devanagari", "Noto Sans", "Segoe UI", Arial, sans-serif;
+      background: radial-gradient(ellipse at 88% 0%, #e3f1e3 0, transparent 34%), var(--bg);
+      color: var(--text);
+    }
+
+    button, input { font: inherit; }
+
+    button { cursor: pointer; }
+
+    .app { min-height: 100vh; }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: 245px;
+      padding: 25px 17px;
+      background: linear-gradient(180deg, #fff 0%, #f9fcf8 100%);
+      border-right: 1px solid var(--border);
+      z-index: 5;
+      box-shadow: 5px 0 22px rgba(33, 73, 43, .04);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0 14px;
+    }
+
+    .logo img {
+      display: block;
+      width: 100%;
+      max-width: 190px;
+      height: auto;
+      filter: drop-shadow(0 5px 5px rgba(29, 81, 39, .12));
+    }
+
+    .nav-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      padding: 12px 12px;
+    }
+
+    .nav-item {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      margin: 3px 0;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      text-align: left;
+      color: #69776d;
+      font-size: 14px;
+    }
+
+    .nav-item.active, .nav-item:hover {
+      background: var(--light);
+      color: var(--green);
+      font-weight: bold;
+      box-shadow: inset 3px 0 0 var(--green);
+    }
+
+    .sidebar-bottom {
+      position: absolute;
+      bottom: 20px;
+      left: 17px;
+      right: 17px;
+      background: #f0f7ef;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .main { margin-left: 245px; }
+
+    .topbar {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 0 32px;
+      background: rgba(255, 255, 255, .92);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 5px 18px rgba(32, 70, 43, .045);
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      backdrop-filter: blur(12px);
+    }
+
+    .search {
+      width: min(340px, 45%);
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      border-radius: 10px;
+      outline-color: var(--green);
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .language-select {
+      max-width: 126px;
+      padding: 9px 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .avatar {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      background: #d9efdb;
+      color: var(--dark);
+      border-radius: 50%;
+      font-weight: bold;
+    }
+
+    .content { padding: 30px 32px; }
+
+    .heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    h1 { font-size: 27px; margin: 0 0 8px; }
+    h2 { font-size: 17px; margin: 0 0 20px; }
+    h3 { font-size: 14px; margin: 0 0 7px; }
+    p { color: var(--muted); font-size: 13px; }
+
+    .primary {
+      border: none;
+      background: var(--green);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 9px;
+      font-weight: bold;
+    }
+
+    .primary:hover { background: var(--dark); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #fff 0%, #fcfefb 100%);
+      padding: 20px;
+      border: 1px solid rgba(221, 234, 221, .95);
+      border-radius: 16px;
+      min-width: 0;
+      box-shadow: var(--card-shadow);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .stats .card:hover, .grid-two > .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(32, 70, 43, .11), 0 4px 8px rgba(32, 70, 43, .05);
+    }
+
+    .stat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      background: var(--light);
+      border-radius: 11px;
+      font-size: 21px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      margin: 18px 0 6px;
+    }
+
+    .positive {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .muted { color: var(--muted); font-size: 12px; }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    select {
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 8px;
+      padding: 8px;
+      color: var(--text);
+    }
+
+    .bar-chart {
+      height: 205px;
+      display: flex;
+      align-items: end;
+      justify-content: space-around;
+      gap: 12px;
+      padding-top: 20px;
+      border-bottom: 1px solid var(--border);
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 49px,
+        #edf1ed 50px
+      );
+    }
+
+    .bar-wrap {
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bar {
+      width: min(34px, 85%);
+      background: #83c995;
+      border-radius: 7px 7px 0 0;
+      min-height: 5px;
+    }
+
+    .bar:hover { background: var(--green); }
+
+    .month {
+      max-width: 100%;
+      overflow: hidden;
+      font-size: clamp(8px, 2.5vw, 11px);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .crop-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .crop-emoji {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      background: #eff7e9;
+      border-radius: 10px;
+      font-size: 22px;
+    }
+
+    .crop-info { flex: 1; min-width: 0; }
+
+    .progress {
+      height: 7px;
+      background: #edf2ed;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      background: var(--green);
+      border-radius: 10px;
+    }
+
+    .activity-card { margin-bottom: 22px; }
+
+    .activity-grid {
+      display: grid;
+      grid-template-columns: repeat(26, minmax(0, 1fr));
+      gap: 5px;
+      margin: 20px 0 12px;
+    }
+
+    .square {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 3px;
+      background: #ebf2eb;
+      border: 0;
+      padding: 0;
+    }
+
+    .square:hover { outline: 2px solid var(--dark); }
+
+    .level-1 { background: #c6e9cc; }
+    .level-2 { background: #84cf94; }
+    .level-3 { background: #42aa61; }
+    .level-4 { background: #18723a; }
+
+    .activity-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .legend { display: flex; align-items: center; gap: 5px; }
+    .legend .square { width: 13px; height: 13px; }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th, td {
+      padding: 15px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .user-cell { display: flex; align-items: center; gap: 10px; }
+
+    .small-avatar {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      background: var(--light);
+      border-radius: 50%;
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 9px;
+      border-radius: 20px;
+      background: var(--light);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .status.pending { background: #fff3d8; color: #966500; }
+
+    .settings-form {
+      display: grid;
+      gap: 17px;
+      max-width: 550px;
+    }
+
+    .settings-form label {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .settings-form input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      outline-color: var(--green);
+    }
+
+    .notice {
+      margin-top: 14px;
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    .menu-button {
+      display: none;
+      background: white;
+      border: 1px solid var(--border);
+      padding: 9px;
+      border-radius: 8px;
+    }
+
+    .mobile-scrim { display: none; }
+
+    @media (max-width: 1100px) {
+      .sidebar { width: 210px; }
+      .main { margin-left: 210px; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .content { padding: 25px 20px; }
+      .topbar { padding: 0 20px; }
+    }
+
+    @media (max-width: 760px) {
+      .sidebar {
+        width: 245px;
+        transform: translateX(-100%);
+        transition: transform .25s;
+        box-shadow: none;
+        overflow-y: auto;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 10px 0 30px #0001;
+      }
+
+      .mobile-scrim {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 4;
+        border: 0;
+        background: rgba(18, 39, 25, .34);
+      }
+
+      .main { margin-left: 0; }
+      .topbar { height: 66px; padding: 0 12px; gap: 8px; }
+      .menu-button { display: block; }
+      .topbar > .top-right:first-child { flex: 1; min-width: 0; gap: 8px; }
+      .search { width: 100%; flex: 1; min-width: 0; padding: 10px; }
+      .top-right { gap: 9px; }
+      .top-right .admin-name { display: none; }
+      .language-select { width: 94px; padding: 8px 5px; font-size: 12px; }
+      .content { padding: 20px 14px; }
+      .heading { align-items: flex-start; flex-direction: column; }
+      .heading .primary { align-self: flex-start; }
+      h1 { font-size: 23px; }
+      .grid-two { grid-template-columns: 1fr; }
+      .activity-grid { gap: 3px; }
+      .card { padding: 17px; }
+      .sidebar-bottom { position: static; margin-top: 22px; }
+    }
+
+    @media (max-width: 420px) {
+      .stats { gap: 10px; }
+      .stat-value { font-size: 23px; }
+      .stat-icon { width: 35px; height: 35px; font-size: 18px; }
+      .stat-label { font-size: 12px; }
+      .activity-grid { grid-template-columns: repeat(13, minmax(0, 1fr)); }
+      .heading .primary { padding: 10px; font-size: 12px; }
+      .content { padding: 17px 11px; }
+      .card { padding: 15px; border-radius: 13px; }
+      .avatar { width: 34px; height: 34px; }
+      .top-right > span[title="Notifications"] { display: none; }
+      th, td { padding: 12px 9px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+
+    :root {
+      --green: #168447;
+      --dark: #123d29;
+      --light: #e4f3e8;
+      --bg: #edf4ee;
+      --text: #1d3025;
+      --muted: #718077;
+      --border: #dbe7dd;
+      --card-shadow: 0 14px 32px rgba(24, 63, 38, .085), 0 3px 8px rgba(24, 63, 38, .045);
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse at 88% 4%, rgba(204, 232, 207, .72), transparent 32%),
+        radial-gradient(ellipse at 4% 95%, rgba(224, 237, 221, .58), transparent 30%),
+        linear-gradient(145deg, #f5f8f3 0%, #edf4ee 48%, #e8f1e9 100%);
+      color: var(--text);
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    button, input, select { font-family: inherit; }
+
+    .sidebar {
+      padding: 22px 16px;
+      background: linear-gradient(155deg, #ffffff 0%, #f8fbf7 58%, #f0f6ef 100%);
+      border-right-color: rgba(204, 222, 207, .9);
+      box-shadow: 8px 0 30px rgba(31, 68, 41, .075), inset -1px 0 rgba(255, 255, 255, .9);
+    }
+
+    .logo {
+      margin: 0 0 10px;
+      padding: 4px 4px 13px;
+      border-bottom: 1px solid rgba(218, 231, 219, .8);
+    }
+
+    .logo img {
+      max-width: 184px;
+      filter: drop-shadow(0 8px 8px rgba(23, 73, 37, .17));
+    }
+
+    .nav-label {
+      padding: 15px 13px 9px;
+      color: #86938a;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.7px;
+    }
+
+    .nav-item {
+      position: relative;
+      gap: 13px;
+      padding: 12px 13px;
+      margin: 4px 0;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      color: #5e6f64;
+      font-size: 13px;
+      font-weight: 650;
+      transition: background .18s ease, box-shadow .18s ease, transform .18s ease, color .18s ease;
+    }
+
+    .nav-item:hover {
+      transform: translateX(2px);
+      background: linear-gradient(135deg, #f1f8f1, #eaf4e9);
+      box-shadow: inset 0 1px rgba(255, 255, 255, .95), 0 4px 10px rgba(25, 81, 43, .06);
+    }
+
+    .nav-item.active {
+      color: #17673a;
+      border-color: #d7ead9;
+      background: linear-gradient(135deg, #f0faf1 0%, #dff1e2 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .98), inset 0 -1px 0 rgba(49, 121, 68, .08), 0 5px 13px rgba(35, 110, 56, .09);
+    }
+
+    .sidebar-bottom {
+      border: 1px solid rgba(215, 232, 216, .92);
+      background: linear-gradient(145deg, #f5fbf3 0%, #e9f4e7 100%);
+      box-shadow: inset 0 1px 0 #fff, 0 7px 18px rgba(26, 79, 40, .06);
+      color: #43594a;
+      line-height: 1.7;
+    }
+
+    .sidebar-bottom strong { color: #214a30; }
+
+    .topbar {
+      height: 74px;
+      padding: 0 30px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(250, 253, 249, .9));
+      border-bottom-color: rgba(211, 226, 213, .88);
+      box-shadow: 0 7px 24px rgba(26, 64, 38, .07), inset 0 1px 0 rgba(255, 255, 255, .95);
+    }
+
+    .search, .language-select, select, .settings-form input {
+      color: var(--text);
+      border: 1px solid #d7e4d9;
+      background: linear-gradient(145deg, #fff 0%, #f6faf6 100%);
+      box-shadow: inset 0 2px 4px rgba(38, 74, 47, .045), 0 1px 0 rgba(255, 255, 255, .95);
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .search {
+      border-radius: 12px;
+      padding: 11px 15px;
+      font-size: 13px;
+    }
+
+    .search:focus, .language-select:focus, select:focus, .settings-form input:focus {
+      border-color: #72b487;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(39, 131, 74, .12), inset 0 1px 3px rgba(38, 74, 47, .04);
+    }
+
+    .top-right { gap: 13px; }
+
+    .language-select {
+      min-height: 39px;
+      border-radius: 11px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .avatar, .small-avatar {
+      border: 1px solid rgba(194, 224, 199, .95);
+      background: linear-gradient(145deg, #f0faef 0%, #d4edd7 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .96), 0 4px 10px rgba(30, 92, 45, .11);
+    }
+
+    .avatar { width: 40px; height: 40px; color: #1c6238; }
+
+    .content { padding: 28px 30px 40px; }
+
+    .heading {
+      margin-bottom: 22px;
+      align-items: center;
+    }
+
+    h1, h2, h3, strong, th, .stat-value {
+      color: #20372a;
+      letter-spacing: -.025em;
+    }
+
+    h1 {
+      margin-bottom: 7px;
+      font-size: clamp(23px, 2.1vw, 29px);
+      font-weight: 800;
+      letter-spacing: -.04em;
+    }
+
+    h2 { margin-bottom: 8px; font-size: 17px; font-weight: 800; }
+    h3 { font-size: 14px; font-weight: 750; }
+    p { margin: 5px 0 0; color: #758379; font-size: 12.5px; line-height: 1.55; }
+    .muted { color: #7d8b81; font-size: 11.5px; }
+
+    .primary {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 11px 16px;
+      border: 1px solid #16743d;
+      border-radius: 11px;
+      background: linear-gradient(180deg, #39a85e 0%, #198348 50%, #126b3b 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .42), inset 0 -2px 0 rgba(5, 59, 29, .24), 0 5px 0 #0f6337, 0 9px 17px rgba(22, 111, 58, .2);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 750;
+      text-shadow: 0 1px 1px rgba(7, 62, 30, .22);
+      transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    }
+
+    .primary::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0 0 52%;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0));
+      content: "";
+      pointer-events: none;
+    }
+
+    .primary:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(180deg, #42b367 0%, #208d4e 54%, #126b3b 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .48), inset 0 -2px 0 rgba(5, 59, 29, .2), 0 7px 0 #0f6337, 0 12px 22px rgba(22, 111, 58, .24);
+    }
+
+    .primary:active {
+      transform: translateY(3px);
+      box-shadow: inset 0 2px 4px rgba(5, 59, 29, .25), 0 2px 0 #0f6337, 0 4px 8px rgba(22, 111, 58, .15);
+    }
+
+    .stats { gap: 16px; margin-bottom: 20px; }
+
+    .card {
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, .9);
+      border-radius: 17px;
+      background:
+        radial-gradient(ellipse at 5% 0%, rgba(255, 255, 255, .98), transparent 45%),
+        linear-gradient(145deg, #fff 0%, #fbfdfb 56%, #f3f8f2 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .98), inset 0 -1px 0 rgba(209, 226, 211, .65), 0 13px 28px rgba(35, 69, 42, .085), 0 3px 8px rgba(35, 69, 42, .045);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .stats .card, .grid-two > .card { border-color: #e3ede4; }
+
+    .stats .card:hover, .grid-two > .card:hover {
+      transform: translateY(-4px);
+      box-shadow: inset 0 1px 0 #fff, 0 19px 35px rgba(35, 69, 42, .13), 0 5px 12px rgba(35, 69, 42, .06);
+    }
+
+    .stats .card { padding: 19px; }
+
+    .stat-label { color: #65766a; font-size: 12.5px; font-weight: 700; }
+
+    .stat-icon, .crop-emoji {
+      border: 1px solid rgba(216, 234, 214, .9);
+      background: linear-gradient(145deg, #f5fbef 0%, #e2f1dc 100%);
+      box-shadow: inset 0 1px 0 #fff, 0 4px 9px rgba(37, 87, 43, .08);
+    }
+
+    .stat-icon { border-radius: 13px; }
+
+    .stat-value {
+      margin: 16px 0 7px;
+      font-size: 27px;
+      font-weight: 850;
+      letter-spacing: -.045em;
+    }
+
+    .positive { color: #168447; font-size: 11.5px; font-weight: 800; }
+
+    .grid-two { gap: 18px; margin-bottom: 20px; }
+
+    .section-head { margin-bottom: 13px; }
+
+    select { border-radius: 10px; font-size: 12px; font-weight: 650; }
+
+    .bar-chart {
+      border-bottom-color: #dce8dd;
+      background: repeating-linear-gradient(to bottom, transparent 0, transparent 49px, rgba(211, 225, 213, .62) 50px);
+    }
+
+    .bar {
+      position: relative;
+      border: 1px solid rgba(34, 133, 72, .12);
+      background: linear-gradient(90deg, #6fc88b 0%, #3ca765 58%, #278b50 100%);
+      box-shadow: inset 1px 0 rgba(255, 255, 255, .28), inset 0 1px rgba(255, 255, 255, .46), 0 4px 8px rgba(30, 111, 59, .15);
+      transition: filter .16s ease, transform .16s ease;
+    }
+
+    .bar:hover { transform: scaleX(1.06); filter: brightness(1.08); }
+
+    .month { color: #748278; font-weight: 600; }
+
+    .crop-row { gap: 12px; margin: 17px 0; }
+    .crop-emoji { border-radius: 12px; }
+    .crop-info strong { font-size: 12.5px !important; font-weight: 750; }
+
+    .progress {
+      height: 8px;
+      border: 1px solid #e5eee5;
+      background: linear-gradient(180deg, #e8eee8, #f4f7f3);
+      box-shadow: inset 0 1px 2px rgba(36, 69, 42, .08);
+    }
+
+    .progress span {
+      background: linear-gradient(90deg, #64bf7e 0%, #269251 100%);
+      box-shadow: inset 0 1px rgba(255, 255, 255, .43), 0 1px 3px rgba(18, 103, 52, .2);
+    }
+
+    .activity-card { margin-bottom: 20px; }
+
+    .square {
+      border: 1px solid rgba(54, 131, 68, .06);
+      background: linear-gradient(145deg, #f1f6ef, #e5eee4);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .85), 0 1px 2px rgba(40, 79, 46, .07);
+    }
+
+    .level-1 { background: linear-gradient(145deg, #d6f0d8, #bee4c3); }
+    .level-2 { background: linear-gradient(145deg, #a6dfae, #7dc98b); }
+    .level-3 { background: linear-gradient(145deg, #68c47e, #39a65a); }
+    .level-4 { background: linear-gradient(145deg, #369b54, #19723a); }
+
+    .status {
+      border: 1px solid #d2e9d6;
+      background: linear-gradient(145deg, #f1faf1, #def0e1);
+      box-shadow: inset 0 1px 0 #fff, 0 2px 4px rgba(27, 98, 48, .06);
+      font-size: 10.5px;
+      font-weight: 750;
+    }
+
+    .status.pending {
+      border-color: #f1dfb7;
+      background: linear-gradient(145deg, #fff9ea, #ffedc8);
+      color: #916000;
+    }
+
+    th, td { border-bottom-color: #e7eee7; font-size: 12.5px; }
+    th { color: #758278; font-weight: 750; letter-spacing: .015em; }
+    tbody tr { transition: background .15s ease; }
+    tbody tr:hover { background: rgba(238, 247, 238, .65); }
+    .user-cell strong { font-size: 12.5px; font-weight: 750; }
+
+    .settings-form label { color: #394d3e; font-size: 12.5px; font-weight: 750; }
+    .settings-form input { border-radius: 11px; }
+    .notice {
+      padding: 11px 13px;
+      border: 1px solid #d8ead9;
+      border-radius: 11px;
+      background: linear-gradient(145deg, #f3faf1, #e7f3e5);
+      color: #247343;
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .menu-button {
+      border-color: #d7e5d9;
+      border-radius: 11px;
+      background: linear-gradient(145deg, #fff, #f1f7f1);
+      box-shadow: inset 0 1px #fff, 0 3px 8px rgba(29, 73, 39, .08);
+      color: #275538;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(38, 137, 75, .35);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 1100px) {
+      .sidebar { width: 210px; }
+      .main { margin-left: 210px; }
+    }
+
+    @media (max-width: 760px) {
+      .sidebar { width: 245px; }
+      .main { margin-left: 0; }
+
+      .sidebar {
+        background: linear-gradient(155deg, #fff 0%, #f5faf4 100%);
+        box-shadow: 14px 0 34px rgba(15, 47, 25, .2);
+      }
+
+      .sidebar.open { box-shadow: 14px 0 34px rgba(15, 47, 25, .2); }
+      .mobile-scrim { background: rgba(17, 40, 24, .42); backdrop-filter: blur(2px); }
+      .topbar { height: 64px; padding: 0 12px; }
+      .content { padding: 19px 14px 30px; }
+      .heading { gap: 12px; margin-bottom: 18px; }
+      .heading .primary { align-self: flex-start; }
+      h1 { font-size: 22px; }
+      .stats { gap: 12px; margin-bottom: 16px; }
+      .grid-two { gap: 14px; margin-bottom: 16px; }
+      .card { border-radius: 15px; }
+    }
+
+    @media (max-width: 420px) {
+      .topbar { height: 60px; padding: 0 9px; gap: 7px; }
+      .topbar > .top-right:first-child { gap: 7px; }
+      .menu-button { padding: 8px; }
+      .search { padding: 9px 10px; border-radius: 10px; font-size: 12px; }
+      .top-right { gap: 7px; }
+      .language-select { width: 86px; min-height: 36px; padding: 7px 4px; font-size: 11px; }
+      .avatar { width: 33px; height: 33px; }
+      .content { padding: 16px 11px 24px; }
+      .heading { margin-bottom: 16px; }
+      h1 { font-size: 20px; }
+      .heading p { font-size: 12px; }
+      .heading .primary { padding: 10px 13px; font-size: 11.5px; }
+      .stats { gap: 10px; }
+      .stats .card { padding: 14px 13px; border-radius: 14px; }
+      .stat-label { font-size: 11px; line-height: 1.35; }
+      .stat-value { margin: 13px 0 6px; font-size: 22px; }
+      .positive, .muted { font-size: 10px; }
+      .stat-icon { width: 34px; height: 34px; font-size: 17px; }
+      .card { padding: 14px; border-radius: 14px; }
+      h2 { font-size: 15px; }
+      p { font-size: 11.5px; }
+      .bar-chart { height: 175px; gap: 5px; }
+      .activity-grid { gap: 3px; }
+      .activity-footer { align-items: flex-start; }
+      .legend { gap: 3px; }
+      .legend .square { width: 11px; height: 11px; }
+      th, td { padding: 11px 8px; font-size: 11.5px; }
+      .user-cell { gap: 7px; }
+      .small-avatar { width: 30px; height: 30px; }
+    }
+
+    .hero-banner {
+      position: relative;
+      isolation: isolate;
+      min-height: 270px;
+      overflow: hidden;
+      align-items: center;
+      margin: 0 0 22px;
+      padding: 30px 32px;
+      border: 1px solid rgba(255, 255, 255, .92);
+      border-radius: 20px;
+      background-color: #e5f1dc;
+      background-image:
+        linear-gradient(90deg, rgba(248, 251, 244, .98) 0%, rgba(248, 251, 244, .93) 28%, rgba(248, 251, 244, .72) 43%, rgba(248, 251, 244, .12) 62%, rgba(248, 251, 244, .02) 100%),
+        linear-gradient(0deg, rgba(20, 67, 34, .18), transparent 38%),
+        url("images/Farmers%20in%20the%20Sunlit%20Fields.png");
+      background-position: center, center, center 5%;
+      background-size: cover;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .96), inset 0 -1px 0 rgba(48, 91, 45, .12), 0 16px 34px rgba(34, 72, 38, .14), 0 4px 10px rgba(34, 72, 38, .06);
+    }
+
+    .hero-banner::after {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .24), transparent 40%);
+      content: "";
+      pointer-events: none;
+    }
+
+    .hero-copy {
+      width: min(56%, 520px);
+      padding: 0;
+    }
+
+    .hero-banner h1 {
+      max-width: 520px;
+      color: #173b29;
+      font-size: clamp(27px, 3vw, 38px);
+      font-weight: 850;
+      line-height: 1.12;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .75);
+    }
+
+    .hero-banner p {
+      max-width: 440px;
+      color: #365343;
+      font-size: 14px;
+      font-weight: 650;
+      line-height: 1.65;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
+    }
+
+    .hero-banner .primary { margin-top: 18px; }
+
+    @media (max-width: 760px) {
+      .hero-banner {
+        min-height: 0;
+        aspect-ratio: 16 / 9;
+        padding: 20px 22px;
+        background-image:
+          linear-gradient(90deg, rgba(248, 251, 244, .5) 0%, rgba(248, 251, 244, .32) 44%, rgba(248, 251, 244, .1) 74%, rgba(248, 251, 244, .02) 100%),
+          linear-gradient(0deg, rgba(20, 67, 34, .1), transparent 46%),
+          url("images/Farmers%20in%20the%20Sunlit%20Fields.png");
+        background-position: center, center, center;
+        background-size: auto, auto, 100% 100%;
+      }
+
+      .hero-copy { width: min(76%, 430px); }
+      .hero-banner h1 { font-size: clamp(24px, 5vw, 31px); }
+      .hero-banner p { font-size: 12px; }
+    }
+
+    @media (max-width: 420px) {
+      .hero-banner {
+        min-height: 0;
+        padding: 15px 17px;
+        border-radius: 16px;
+        background-image:
+          linear-gradient(90deg, rgba(248, 251, 244, .52) 0%, rgba(248, 251, 244, .34) 48%, rgba(248, 251, 244, .12) 100%),
+          linear-gradient(0deg, rgba(20, 67, 34, .08), transparent 48%),
+          url("images/Farmers%20in%20the%20Sunlit%20Fields.png");
+        background-position: center, center, center;
+        background-size: auto, auto, 100% 100%;
+      }
+
+      .hero-copy { width: 100%; max-width: 310px; }
+      .hero-banner h1 { max-width: 300px; font-size: 25px; }
+      .hero-banner p { max-width: 280px; font-size: 11.5px; }
+      .hero-banner .primary { margin-top: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const translations = {
+      hi: {
+        "Dashboard": "डैशबोर्ड", "Farm Management": "फार्म प्रबंधन", "Crop Reports": "फसल रिपोर्ट",
+        "Irrigation": "सिंचाई", "Irrigation Management": "सिंचाई प्रबंधन", "Users": "किसान",
+        "Activity": "गतिविधि", "Profile Settings": "प्रोफ़ाइल सेटिंग्स", "MAIN MENU": "मुख्य मेनू",
+        "Agriculture Admin": "कृषि एडमिन", "Close navigation": "नेविगेशन बंद करें",
+        "Language": "भाषा", "Notifications": "सूचनाएं",
+        "Agriculture Dashboard": "कृषि डैशबोर्ड", "Welcome back! Here's your farm management overview.": "वापस स्वागत है! आपके कृषि प्रबंधन का सारांश।",
+        "Search farmers...": "किसान खोजें...", "Total Farms": "कुल फार्म", "Registered Farmers": "पंजीकृत किसान",
+        "Cultivated Area": "खेती का क्षेत्र", "Crop Production": "फसल उत्पादन", "Sample data": "नमूना डेटा",
+        "Monthly harvest overview": "मासिक फसल कटाई का सारांश", "Production year": "उत्पादन वर्ष",
+        "Production index · Illustrative figures for": "उत्पादन सूचकांक · उदाहरण के आंकड़े",
+        "Crop Distribution": "फसल वितरण", "Farm area by crop": "फसल के अनुसार कृषि क्षेत्र",
+        "Admin Activity": "व्यवस्थापक गतिविधि", "Daily activity contribution graph": "दैनिक गतिविधि ग्राफ",
+        "Live UI Demo": "लाइव UI डेमो", "Each square represents one day": "हर वर्ग एक दिन दर्शाता है",
+        "Less": "कम", "More": "अधिक", "Recent Farmers": "हाल के किसान",
+        "Latest registered users": "हाल ही में पंजीकृत उपयोगकर्ता", "+ Add Farmer": "+ किसान जोड़ें",
+        "Farmer": "किसान", "Crop": "फसल", "Status": "स्थिति", "Joined": "शामिल हुए",
+        "Active": "सक्रिय", "Pending": "लंबित", "Today": "आज", "Yesterday": "कल",
+        "No matching farmers found.": "कोई मेल खाता किसान नहीं मिला।",
+        "Activity Tracker": "गतिविधि ट्रैकर", "Green squares show illustrative daily activity.": "हरे वर्ग उदाहरण के लिए दैनिक गतिविधि दिखाते हैं।",
+        "Recent Activities": "हाल की गतिविधियां", "days ago · Sample activity": "दिन पहले · नमूना गतिविधि",
+        "Full Name": "पूरा नाम", "Email Address": "ईमेल पता", "Role": "भूमिका",
+        "Super Admin": "सुपर एडमिन", "Save Profile": "प्रोफ़ाइल सहेजें",
+        "Update your admin profile information.": "अपनी एडमिन प्रोफ़ाइल जानकारी अपडेट करें।",
+        "Demo only: changes are kept in React state until the page reloads.": "डेमो: बदलाव केवल पेज रीलोड होने तक सेव रहते हैं।",
+        "Manage farms, locations, cultivated areas and farmer assignments.": "फार्म, स्थान, खेती के क्षेत्र और किसान असाइनमेंट प्रबंधित करें।",
+        "Review crop production, seasonal yields and harvest reports.": "फसल उत्पादन, मौसमी पैदावार और कटाई रिपोर्ट देखें।",
+        "Monitor irrigation schedules, water usage and pending field tasks.": "सिंचाई समय-सारणी, पानी का उपयोग और खेत के लंबित कार्य देखें।",
+        "Agriculture management section.": "कृषि प्रबंधन अनुभाग।",
+        "Section ready for development": "अनुभाग विकास के लिए तैयार है",
+        "This static demo uses sample data. Backend integration can be added later.": "इस स्थिर डेमो में नमूना डेटा है। बैकएंड बाद में जोड़ा जा सकता है।",
+        "Grow smarter, manage better.": "स्मार्ट खेती, बेहतर प्रबंधन।", "Frontend demo · v1.0": "फ्रंटएंड डेमो · v1.0",
+        "Toggle navigation": "नेविगेशन टॉगल करें", "Irrigation task completed": "सिंचाई का कार्य पूरा हुआ",
+        "New farmer registered": "नया किसान पंजीकृत हुआ", "Wheat crop record updated": "गेहूं की फसल का रिकॉर्ड अपडेट हुआ",
+        "Profile settings updated": "प्रोफ़ाइल सेटिंग्स अपडेट हुईं", "New farm added": "नया फार्म जोड़ा गया",
+        "Crop report reviewed": "फसल रिपोर्ट की समीक्षा हुई", "Wheat": "गेहूं", "Cotton": "कपास",
+        "Soybean": "सोयाबीन", "Rice": "चावल", "Not assigned": "असाइन नहीं किया गया",
+        "acres": "एकड़", "sample activities": "नमूना गतिविधियां",
+        "Sample farmer added successfully.": "नमूना किसान सफलतापूर्वक जोड़ा गया।",
+        "Profile saved for this session.": "प्रोफ़ाइल इस सत्र के लिए सहेजी गई।",
+        "Jan": "जन", "Feb": "फ़र", "Mar": "मार्च", "Apr": "अप्रै", "May": "मई",
+        "Jun": "जून", "Jul": "जुल", "Aug": "अग", "Sep": "सित", "Oct": "अक्टू",
+        "Nov": "नव", "Dec": "दिस"
+      },
+      mr: {
+        "Dashboard": "डॅशबोर्ड", "Farm Management": "शेती व्यवस्थापन", "Crop Reports": "पीक अहवाल",
+        "Irrigation": "सिंचन", "Irrigation Management": "सिंचन व्यवस्थापन", "Users": "शेतकरी",
+        "Activity": "उपक्रम", "Profile Settings": "प्रोफाइल सेटिंग्ज", "MAIN MENU": "मुख्य मेनू",
+        "Agriculture Admin": "शेती प्रशासक", "Close navigation": "नेव्हिगेशन बंद करा",
+        "Language": "भाषा", "Notifications": "सूचना",
+        "Agriculture Dashboard": "शेती डॅशबोर्ड", "Welcome back! Here's your farm management overview.": "पुन्हा स्वागत आहे! तुमच्या शेती व्यवस्थापनाचा आढावा.",
+        "Search farmers...": "शेतकरी शोधा...", "Total Farms": "एकूण शेती", "Registered Farmers": "नोंदणीकृत शेतकरी",
+        "Cultivated Area": "लागवडीखालील क्षेत्र", "Crop Production": "पीक उत्पादन", "Sample data": "नमुना माहिती",
+        "Monthly harvest overview": "मासिक कापणीचा आढावा", "Production year": "उत्पादन वर्ष",
+        "Production index · Illustrative figures for": "उत्पादन निर्देशांक · उदाहरणार्थ आकडे",
+        "Crop Distribution": "पीक वितरण", "Farm area by crop": "पिकानुसार शेती क्षेत्र",
+        "Admin Activity": "प्रशासक उपक्रम", "Daily activity contribution graph": "दैनंदिन उपक्रम आलेख",
+        "Live UI Demo": "लाइव्ह UI डेमो", "Each square represents one day": "प्रत्येक चौकोन एक दिवस दर्शवतो",
+        "Less": "कमी", "More": "जास्त", "Recent Farmers": "अलीकडील शेतकरी",
+        "Latest registered users": "नवीन नोंदणीकृत वापरकर्ते", "+ Add Farmer": "+ शेतकरी जोडा",
+        "Farmer": "शेतकरी", "Crop": "पीक", "Status": "स्थिती", "Joined": "नोंदणी",
+        "Active": "सक्रिय", "Pending": "प्रलंबित", "Today": "आज", "Yesterday": "काल",
+        "No matching farmers found.": "जुळणारे शेतकरी आढळले नाहीत.",
+        "Activity Tracker": "उपक्रम ट्रॅकर", "Green squares show illustrative daily activity.": "हिरवे चौकोन उदाहरणार्थ दैनंदिन उपक्रम दाखवतात.",
+        "Recent Activities": "अलीकडील उपक्रम", "days ago · Sample activity": "दिवसांपूर्वी · नमुना उपक्रम",
+        "Full Name": "पूर्ण नाव", "Email Address": "ईमेल पत्ता", "Role": "भूमिका",
+        "Super Admin": "सुपर अॅडमिन", "Save Profile": "प्रोफाइल जतन करा",
+        "Update your admin profile information.": "तुमची प्रशासक प्रोफाइल माहिती अद्ययावत करा.",
+        "Demo only: changes are kept in React state until the page reloads.": "डेमो: बदल फक्त पेज रीलोड होईपर्यंत जतन होतात.",
+        "Manage farms, locations, cultivated areas and farmer assignments.": "शेती, ठिकाणे, लागवडीखालील क्षेत्र आणि शेतकरी नेमणुका व्यवस्थापित करा.",
+        "Review crop production, seasonal yields and harvest reports.": "पीक उत्पादन, हंगामी उत्पन्न आणि कापणी अहवाल तपासा.",
+        "Monitor irrigation schedules, water usage and pending field tasks.": "सिंचन वेळापत्रक, पाण्याचा वापर आणि प्रलंबित शेतकामे पहा.",
+        "Agriculture management section.": "शेती व्यवस्थापन विभाग.",
+        "Section ready for development": "विभाग विकासासाठी तयार आहे",
+        "This static demo uses sample data. Backend integration can be added later.": "या स्थिर डेमोमध्ये नमुना माहिती आहे. बॅकएंड नंतर जोडता येईल.",
+        "Grow smarter, manage better.": "स्मार्ट शेती, उत्तम व्यवस्थापन.", "Frontend demo · v1.0": "फ्रंटएंड डेमो · v1.0",
+        "Toggle navigation": "नेव्हिगेशन टॉगल करा", "Irrigation task completed": "सिंचनाचे काम पूर्ण झाले",
+        "New farmer registered": "नवीन शेतकरी नोंदणीकृत", "Wheat crop record updated": "गव्हाच्या पिकाची नोंद अद्ययावत",
+        "Profile settings updated": "प्रोफाइल सेटिंग्ज अद्ययावत", "New farm added": "नवीन शेती जोडली",
+        "Crop report reviewed": "पीक अहवाल तपासला", "Wheat": "गहू", "Cotton": "कापूस",
+        "Soybean": "सोयाबीन", "Rice": "तांदूळ", "Not assigned": "नेमलेले नाही",
+        "acres": "एकर", "sample activities": "नमुना उपक्रम",
+        "Sample farmer added successfully.": "नमुना शेतकरी यशस्वीपणे जोडला.",
+        "Profile saved for this session.": "या सत्रासाठी प्रोफाइल जतन केले.",
+        "Jan": "जाने", "Feb": "फेब्रु", "Mar": "मार्च", "Apr": "एप्रि", "May": "मे",
+        "Jun": "जून", "Jul": "जुलै", "Aug": "ऑग", "Sep": "सप्टें", "Oct": "ऑक्टो",
+        "Nov": "नोव्हें", "Dec": "डिसें"
+      }
+    };
+
+    const initialUsers = [
+      { name: "Rahul Patil", email: "rahul@example.com", crop: "Wheat", status: "Active", date: "Today" },
+      { name: "Priya Deshmukh", email: "priya@example.com", crop: "Cotton", status: "Active", date: "Today" },
+      { name: "Amit Shinde", email: "amit@example.com", crop: "Soybean", status: "Pending", date: "Yesterday" },
+      { name: "Sneha Jadhav", email: "sneha@example.com", crop: "Rice", status: "Active", date: "Yesterday" }
+    ];
+
+    const activities = [
+      "New farmer registered",
+      "Wheat crop record updated",
+      "Irrigation task completed",
+      "Profile settings updated",
+      "New farm added",
+      "Crop report reviewed"
+    ];
+
+    function App() {
+      const [page, setPage] = useState("Dashboard");
+      const [language, setLanguage] = useState("en");
+      const [menuOpen, setMenuOpen] = useState(false);
+      const [search, setSearch] = useState("");
+      const [users, setUsers] = useState(initialUsers);
+      const [year, setYear] = useState("2026");
+      const [name, setName] = useState("Tushar Ingle");
+      const [email, setEmail] = useState("admin@agriadmin.com");
+      const [notice, setNotice] = useState("");
+      const t = text => language === "en" ? text : (translations[language][text] || text);
+
+      // Sample static activity data. Not fetched from a server.
+      const squares = Array.from({ length: 182 }, (_, i) => ({
+        id: i,
+        level: (i * 7 + Math.floor(i / 5) * 3) % 9 === 0
+          ? 0
+          : (i * 3 + Math.floor(i / 7)) % 5,
+        date: new Date(2026, 0, i + 1).toLocaleDateString(
+          language === "hi" ? "hi-IN" : language === "mr" ? "mr-IN" : "en-IN"
+        )
+      }));
+
+      const navItems = [
+        ["Dashboard", "▦"],
+        ["Farm Management", "🌱"],
+        ["Crop Reports", "📊"],
+        ["Irrigation", "💧"],
+        ["Users", "👥"],
+        ["Activity", "▦"],
+        ["Profile Settings", "⚙"]
+      ];
+
+      const filteredUsers = users.filter(u =>
+        `${u.name} ${u.email} ${u.crop} ${t(u.crop)} ${t(u.status)}`.toLowerCase().includes(search.toLowerCase())
+      );
+
+      function navigate(item) {
+        setPage(item);
+        setMenuOpen(false);
+        setNotice("");
+      }
+
+      function addFarmer() {
+        const newUser = {
+          name: `New Farmer ${users.length + 1}`,
+          email: `farmer${users.length + 1}@example.com`,
+          crop: "Not assigned",
+          status: "Pending",
+          date: "Today"
+        };
+        setUsers([newUser, ...users]);
+        setPage("Users");
+        setNotice(t("Sample farmer added successfully."));
+      }
+
+      function saveProfile(e) {
+        e.preventDefault();
+        setNotice(t("Profile saved for this session."));
+      }
+
+      function Stat({ icon, label, value, change }) {
+        return (
+          <div className="card">
+            <div className="stat-top">
+              <span className="stat-label">{label}</span>
+              <span className="stat-icon">{icon}</span>
+            </div>
+            <div className="stat-value">{value}</div>
+            <span className="positive">{change}</span>
+            <span className="muted"> · {t("Sample data")}</span>
+          </div>
+        );
+      }
+
+      function ActivityGrid() {
+        return (
+          <>
+            <div className="activity-grid">
+              {squares.map(s => (
+                <button
+                  key={s.id}
+                  className={`square ${s.level ? `level-${s.level}` : ""}`}
+                  title={`${s.date}: ${s.level * 2} ${t("sample activities")}`}
+                  aria-label={`${s.date}: ${s.level * 2} ${t("sample activities")}`}
+                  onClick={() => setNotice(
+                    `${s.date}: ${s.level * 2} ${t("sample activities")}.`
+                  )}
+                />
+              ))}
+            </div>
+            <div className="activity-footer">
+              <span className="muted">{t("Each square represents one day")}</span>
+              <div className="legend">
+                <span className="muted">{t("Less")}</span>
+                {[0, 1, 2, 3, 4].map(n => (
+                  <span key={n} className={`square ${n ? `level-${n}` : ""}`} />
+                ))}
+                <span className="muted">{t("More")}</span>
+              </div>
+            </div>
+          </>
+        );
+      }
+
+      function Dashboard() {
+        const crops = [
+          { name: "Wheat", area: "320 acres", value: 78, icon: "🌾" },
+          { name: "Cotton", area: "240 acres", value: 60, icon: "🌿" },
+          { name: "Soybean", area: "180 acres", value: 46, icon: "🫘" },
+          { name: "Rice", area: "110 acres", value: 30, icon: "🌱" }
+        ];
+
+        return (
+          <>
+            <div className="stats">
+              <Stat icon="🌾" label={t("Total Farms")} value="1,248" change="+8.2%" />
+              <Stat icon="👨‍🌾" label={t("Registered Farmers")} value="856" change="+12.5%" />
+              <Stat icon="🌱" label={t("Cultivated Area")} value="2,450" change="+5.4%" />
+              <Stat icon="📦" label={t("Crop Production")} value="8,640 t" change="+9.1%" />
+            </div>
+
+            <div className="grid-two">
+              <section className="card">
+                <div className="section-head">
+                  <div>
+                    <h2>{t("Crop Production")}</h2>
+                    <p>{t("Monthly harvest overview")}</p>
+                  </div>
+                  <select aria-label={t("Production year")} value={year}
+                    onChange={e => setYear(e.target.value)}>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                  </select>
+                </div>
+
+                <div className="bar-chart">
+                  {[45, 68, 52, 84, 62, 95, 72, 58, 88, 66, 78, 92].map((v, i) => (
+                    <div className="bar-wrap" key={i}>
+                      <div
+                        className="bar"
+                        style={{ height: `${year === "2025" ? v * .78 : v}%` }}
+                        title={`Sample production: ${v}`}
+                      />
+                      <span className="month">
+                        {t(["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][i])}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <p>{t("Production index · Illustrative figures for")} {year}</p>
+              </section>
+
+              <section className="card">
+                <h2>{t("Crop Distribution")}</h2>
+                <p>{t("Farm area by crop")}</p>
+                {crops.map(c => (
+                  <div className="crop-row" key={c.name}>
+                    <div className="crop-emoji">{c.icon}</div>
+                    <div className="crop-info">
+                      <div className="section-head" style={{ margin: 0 }}>
+                        <strong style={{ fontSize: 13 }}>{t(c.name)}</strong>
+                        <span className="muted">{c.area.replace("acres", t("acres"))}</span>
+                      </div>
+                      <div className="progress">
+                        <span style={{ width: `${c.value}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </section>
+            </div>
+
+            <section className="card activity-card">
+              <div className="section-head">
+                <div>
+                  <h2>{t("Admin Activity")}</h2>
+                  <p>{t("Daily activity contribution graph")}</p>
+                </div>
+                <span className="status">{t("Live UI Demo")}</span>
+              </div>
+              <ActivityGrid />
+              {notice && <div className="notice">{notice}</div>}
+            </section>
+
+            <UsersTable />
+          </>
+        );
+      }
+
+      function UsersTable() {
+        return (
+          <section className="card">
+            <div className="section-head">
+              <div>
+                <h2>{t("Recent Farmers")}</h2>
+                <p>{t("Latest registered users")}</p>
+              </div>
+              <button className="primary" onClick={addFarmer}>{t("+ Add Farmer")}</button>
+            </div>
+            <div className="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>{t("Farmer")}</th><th>{t("Crop")}</th><th>{t("Status")}</th><th>{t("Joined")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredUsers.slice(0, 6).map((u, i) => (
+                    <tr key={u.email}>
+                      <td>
+                        <div className="user-cell">
+                          <span className="small-avatar">{u.name[0]}</span>
+                          <div>
+                            <strong>{u.name}</strong>
+                            <div className="muted">{u.email}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>{t(u.crop)}</td>
+                      <td><span className={`status ${u.status === "Pending" ? "pending" : ""}`}>{t(u.status)}</span></td>
+                      <td>{t(u.date)}</td>
+                    </tr>
+                  ))}
+                  {filteredUsers.length === 0 && (
+                    <tr><td colSpan="4">{t("No matching farmers found.")}</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        );
+      }
+
+      function PageContent() {
+        if (page === "Dashboard") return <Dashboard />;
+
+        if (page === "Activity") {
+          return (
+            <section className="card">
+              <h2>{t("Activity Tracker")}</h2>
+              <p>{t("Green squares show illustrative daily activity.")}</p>
+              <ActivityGrid />
+              <h2 style={{ marginTop: 28 }}>{t("Recent Activities")}</h2>
+              {activities.map((a, i) => (
+                <div className="crop-row" key={a}>
+                  <div className="crop-emoji">✓</div>
+                  <div className="crop-info">
+                    <strong>{t(a)}</strong>
+                    <p>{i + 1} {t("days ago · Sample activity")}</p>
+                  </div>
+                </div>
+              ))}
+            </section>
+          );
+        }
+
+        if (page === "Profile Settings") {
+          return (
+            <section className="card">
+              <h2>{t("Profile Settings")}</h2>
+              <p>{t("Update your admin profile information.")}</p>
+              <form className="settings-form" onSubmit={saveProfile}>
+                <label>{t("Full Name")}
+                  <input value={name} onChange={e => setName(e.target.value)} required />
+                </label>
+                <label>{t("Email Address")}
+                  <input type="email" value={email}
+                    onChange={e => setEmail(e.target.value)} required />
+                </label>
+                <label>{t("Role")}
+                  <input value={t("Super Admin")} disabled />
+                </label>
+                <button className="primary" type="submit">{t("Save Profile")}</button>
+              </form>
+              {notice && <div className="notice">{notice}</div>}
+              <p>{t("Demo only: changes are kept in React state until the page reloads.")}</p>
+            </section>
+          );
+        }
+
+        if (page === "Users") {
+          return <>
+            <UsersTable />
+            {notice && <p className="notice">{notice}</p>}
+          </>;
+        }
+
+        const info = {
+          "Farm Management": ["Farm Management", "Manage farms, locations, cultivated areas and farmer assignments."],
+          "Crop Reports": ["Crop Reports", "Review crop production, seasonal yields and harvest reports."],
+          "Irrigation": ["Irrigation Management", "Monitor irrigation schedules, water usage and pending field tasks."]
+        };
+
+        const [title, description] = info[page] || [page, "Agriculture management section."];
+        return (
+          <section className="card">
+            <h2>{t(title)}</h2>
+            <p>{t(description)}</p>
+            <div className="crop-row">
+              <div className="crop-emoji">🌱</div>
+              <div className="crop-info">
+                <strong>{t("Section ready for development")}</strong>
+                <p>{t("This static demo uses sample data. Backend integration can be added later.")}</p>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      return (
+        <div className="app" lang={language === "en" ? "en" : language}>
+          {menuOpen && <button className="mobile-scrim" aria-label="Close navigation" onClick={() => setMenuOpen(false)} />}
+          <aside className={`sidebar ${menuOpen ? "open" : ""}`}>
+            <div className="logo">
+              <img src="images/agri_logo-removebg-preview.png" alt="AgriBorget Smart Farming Better Future logo" />
+            </div>
+            <div className="nav-label">{t("MAIN MENU")}</div>
+            {navItems.map(([label, icon]) => (
+              <button key={label}
+                className={`nav-item ${page === label ? "active" : ""}`}
+                onClick={() => navigate(label)}>
+                <span>{icon}</span>{t(label)}
+              </button>
+            ))}
+            <div className="sidebar-bottom">
+              <strong>🌱 {t("Agriculture Admin")}</strong>
+              <div>{t("Grow smarter, manage better.")}</div>
+              <div>{t("Frontend demo · v1.0")}</div>
+            </div>
+          </aside>
+
+          <main className="main">
+            <header className="topbar">
+              <div className="top-right">
+                <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)}
+                  aria-label={t("Toggle navigation")}>☰</button>
+                <input className="search" placeholder={t("Search farmers...")}
+                  value={search} onChange={e => setSearch(e.target.value)} />
+              </div>
+              <div className="top-right">
+                <select className="language-select" aria-label={t("Language")}
+                  value={language} onChange={e => setLanguage(e.target.value)}>
+                  <option value="en">English</option>
+                  <option value="hi">हिन्दी</option>
+                  <option value="mr">मराठी</option>
+                </select>
+                <span title={t("Notifications")}>🔔</span>
+                <div className="avatar">{name.trim()[0] || "A"}</div>
+                <div className="admin-name">
+                  <strong style={{ fontSize: 13 }}>{name}</strong>
+                  <div className="muted">{t("Super Admin")}</div>
+                </div>
+              </div>
+            </header>
+
+            <div className="content">
+              <div className={`heading ${page === "Dashboard" ? "hero-banner" : ""}`}>
+                <div className={page === "Dashboard" ? "hero-copy" : ""}>
+                  <h1>{t(page === "Dashboard" ? "Agriculture Dashboard" : page)}</h1>
+                  <p>{t("Welcome back! Here's your farm management overview.")}</p>
+                  {page === "Dashboard" && (
+                    <button className="primary" onClick={addFarmer}>{t("+ Add Farmer")}</button>
+                  )}
+                </div>
+                {page !== "Dashboard" && (
+                  <button className="primary" onClick={addFarmer}>{t("+ Add Farmer")}</button>
+                )}
+              </div>
+              <PageContent />
+            </div>
+          </main>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
