@@ -1,0 +1,614 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+/* ------------ Header ------------  */
+/* Heading */
+
+/* Main Heading Section */
+.business-ideas-home-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 25px;
+  margin: 0 auto 54px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+/* Heading Content */
+.business-ideas-home-heading-left {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Label */
+.business-ideas-home-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 8px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #092f1a;
+  font-size: clamp(18px, 1.8vw, 29px);
+  text-align: center;
+}
+
+/* Main Heading */
+.business-ideas-home-heading-left h1 {
+  width: 100%;
+  margin: 24px 0 0;
+  color: #092f1a;
+  font-size: clamp(36px, 3.2vw, 58px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -1.8px;
+  text-align: center;
+}
+
+/* Explore Services Button */
+.business-ideas-home-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  min-height: 62px;
+  margin-top: 5px;
+  padding: 12px 28px;
+  border: 2px solid var(--agri-white);
+  border-radius: 999px;
+  background: var(--agri-lime);
+  color: var(--agri-green);
+  font-size: 18px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.business-ideas-home-button:hover {
+  transform: translateY(-3px);
+  background: #eaf477;
+  box-shadow: 0 8px 18px rgba(6, 77, 48, 0.12);
+}
+
+.business-ideas-home-button span {
+  font-size: 23px;
+  transition: transform 0.25s ease;
+}
+
+.business-ideas-home-button:hover span {
+  transform: translate(3px, -3px);
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .business-ideas-home-heading {
+    gap: 22px;
+    margin-bottom: 42px;
+    padding: 0 18px;
+  }
+
+  .business-ideas-home-heading-left h1 {
+    font-size: clamp(34px, 5.5vw, 46px);
+    letter-spacing: -1.2px;
+  }
+
+  .business-ideas-home-label {
+    min-height: 46px;
+    font-size: 20px;
+  }
+
+  .business-ideas-home-button {
+    min-height: 56px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .business-ideas-home-heading {
+    gap: 20px;
+    margin-bottom: 35px;
+    padding: 0 12px;
+  }
+
+  .business-ideas-home-label {
+    min-height: 40px;
+    padding: 7px 17px;
+    font-size: 15px;
+  }
+
+  .business-ideas-home-heading-left h1 {
+    margin-top: 18px;
+    font-size: clamp(29px, 8vw, 36px);
+    line-height: 1.2;
+    letter-spacing: -0.8px;
+  }
+
+  .business-ideas-home-button {
+    min-height: 50px;
+    padding: 10px 22px;
+    font-size: 15px;
+    gap: 10px;
+  }
+
+  .business-ideas-home-button span {
+    font-size: 20px;
+  }
+}
+
+/* Extra Small Devices */
+@media (max-width: 360px) {
+  .business-ideas-home-heading-left h1 {
+    font-size: 27px;
+  }
+
+  .business-ideas-home-label {
+    font-size: 14px;
+  }
+}
+
+/* ---- Header End ---- */
+
+.business-ideas-home {
+  width: 100%;
+  /* width : 1200px; */
+  padding: 55px 24px;
+  /* background: #eff5eb; */
+   font-family: "DM Sans", sans-serif;
+  color: #26392c;
+  background: #f0f5ed;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.business-ideas-home *,
+.business-ideas-home *::before,
+.business-ideas-home *::after {
+  box-sizing: border-box;
+}
+
+.business-ideas-container {
+  /* width: 100%; */
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.12fr minmax(0, 1fr);
+  grid-template-rows: minmax(200px, auto) minmax(200px, auto);
+  align-items: center;
+  column-gap: 5px;
+  row-gap: 20px;
+}
+
+/* Connecting lines behind the cards */
+
+.business-ideas-connector {
+  position: absolute;
+  width: 43%;
+  height: 88%;
+  left: 28.5%;
+  top: 6%;
+  border: 1.5px solid #a7c7b0;
+  border-radius: 32px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.business-ideas-connector::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1.5px;
+  top: 50%;
+  left: 0;
+  background: #a7c7b0;
+  transform: translateY(-50%);
+}
+
+/* Central farming logo */
+
+.business-ideas-center {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  width: clamp(210px, 25vw, 375px);
+  aspect-ratio: 1 / 1;
+  justify-self: center;
+  align-self: center;
+  position: relative;
+  z-index: 2;
+  border: 2px solid #d3e2c9;
+  border-radius: 50%;
+  background: rgba(232, 241, 225, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.business-ideas-center-inner {
+  width: 30%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  color: #76a47d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.business-ideas-main-logo {
+  width: 100%;
+  height: 100%;
+}
+
+/* Business cards */
+.business-ideas-card {
+  width: 100%;
+  min-width: 0;
+  min-height: 200px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #c4d8b8;
+  border-radius: 21px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 0 12px 30px rgba(34, 70, 43, 0.045);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.business-ideas-card:hover {
+  transform: translateY(-5px);
+   border-color: #8eb78c;
+  box-shadow: 0 16px 35px rgba(34, 70, 43, 0.09);
+}
+
+.business-ideas-card.top-left {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.business-ideas-card.top-right {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.business-ideas-card.bottom-left {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.business-ideas-card.bottom-right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.business-ideas-card-heading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.business-ideas-icon {
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+  border: 1px solid #b8d5bd;
+  border-radius: 50%;
+  background: #f0f6ef;
+  color: #1c2a20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.business-ideas-icon svg {
+  width: 38px;
+  height: 38px;
+}
+
+.business-ideas-card h2 {
+    font-family: "Manrope", sans-serif;
+      color: #143b25;
+ margin: 0;
+  font-size: 25px;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: -0.8px;
+  overflow-wrap: anywhere;
+}
+.business-ideas-card p {
+    font-family: "DM Sans", sans-serif;
+  margin: 0 0 25px;
+    color: #45594a;
+
+  /* font-size: clamp(16px, 1.35vw, 22px); */
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+.business-ideas-button {
+  margin-top: auto;
+  /* min-height: 50px; */
+  padding: 2px 10px 2px 10px;
+  border: 1px solid #a8c991;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: #23382a;
+  background: #fff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.2;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.business-ideas-button:hover {
+  color: #fff;
+  background: linear-gradient(110deg, #a8c991, #58936d);
+  border-color: #78a77d;
+}
+
+.business-ideas-button-arrow {
+  width: 10px;
+  height: 35px;
+  flex: 0 0 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  /* background: linear-gradient(135deg, #a9ca94, #5d9670); */
+   background: linear-gradient(135deg, #a8c991, #568d69);
+  font-size: 25px;
+  font-weight: 500;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.business-ideas-button:hover .business-ideas-button-arrow {
+  color: #183322;
+  background: #fff;
+  transform: rotate(45deg);
+}
+
+/* Laptop and smaller desktop */
+
+@media (max-width: 1100px) {
+  .business-ideas-home {
+    padding: 45px 20px;
+  }
+
+  .business-ideas-container {
+    grid-template-columns: minmax(0, 1fr) minmax(190px, 0.75fr) minmax(0, 1fr);
+    column-gap: 18px;
+    row-gap: 30px;
+  }
+
+  .business-ideas-card {
+    min-height: 280px;
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .business-ideas-icon {
+    width: 56px;
+    height: 56px;
+    flex-basis: 56px;
+     background: #f1f6ef;
+  border: 1px solid #c4d9c5;
+  color: #31563c;
+  }
+
+  .business-ideas-icon svg {
+    width: 31px;
+    height: 31px;
+  }
+
+  .business-ideas-card-heading {
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .business-ideas-card h2 {
+    font-size: 22px;
+    letter-spacing: -0.5px;
+  }
+
+  .business-ideas-card p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .business-ideas-button {
+   font-family: "DM Sans", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #244331;
+  background: #ffffff;
+  border: 1px solid #a8c991;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  }
+
+  .business-ideas-button-arrow {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+    font-size: 25px;
+  }
+}
+
+/* Tablet: two cards per row, logo below */
+
+@media (max-width: 760px) {
+  .business-ideas-home {
+    padding: 40px 20px;
+  }
+
+  .business-ideas-container {
+    max-width: 650px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto auto;
+    gap: 20px;
+  }
+
+  .business-ideas-connector {
+    display: none;
+  }
+
+  .business-ideas-center {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    width: 190px;
+    margin: 12px auto 0;
+  }
+
+  .business-ideas-card.top-left {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .business-ideas-card.top-right {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .business-ideas-card.bottom-left {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .business-ideas-card.bottom-right {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .business-ideas-card {
+    min-height: 280px;
+    padding: 20px;
+  }
+
+  .business-ideas-card-heading {
+    align-items: center;
+  }
+
+  .business-ideas-card h2 {
+    font-size: 21px;
+  }
+
+  .business-ideas-card p {
+    font-size: 15px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .business-ideas-home {
+    padding: 30px 15px;
+  }
+
+  .business-ideas-container {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    gap: 18px;
+  }
+
+  .business-ideas-card.top-left,
+  .business-ideas-card.top-right,
+  .business-ideas-card.bottom-left,
+  .business-ideas-card.bottom-right {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .business-ideas-card {
+    min-height: 0;
+    padding: 22px 20px;
+    border-radius: 17px;
+  }
+
+  .business-ideas-card-heading {
+    gap: 12px;
+    margin-bottom: 15px;
+  }
+
+  .business-ideas-icon {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+  }
+
+  .business-ideas-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .business-ideas-card h2 {
+    font-size: 22px;
+    line-height: 1.3;
+  }
+
+  .business-ideas-card p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .business-ideas-button {
+    min-height: 54px;
+    padding: 6px 6px 6px 19px;
+    font-size: 16px;
+  }
+
+  .business-ideas-button-arrow {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+    font-size: 24px;
+  }
+
+  .business-ideas-center {
+    grid-column: 1;
+    grid-row: auto;
+    width: 155px;
+    margin: 12px auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .business-ideas-card,
+  .business-ideas-button,
+  .business-ideas-button-arrow {
+    transition: none;
+  }
+}

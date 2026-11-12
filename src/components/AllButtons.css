@@ -1,0 +1,268 @@
+
+/* ==============================
+   REUSABLE WEBSITE BUTTONS
+============================== */
+
+:root {
+  --button-green: #1b5937;
+  --button-dark: #064d30;
+  --button-lime: #d9e95a;
+  --button-white: #ffffff;
+  --button-border: #1b5937;
+  --button-background :#fff;
+  --button-color-hover :#075b37;
+  --button-bg-color : transparent;
+}
+/* Reusable Learn More button alignment */
+.projects-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 40px;
+}
+
+@media (max-width: 680px) {
+  .projects-button-wrapper {
+    margin-top: 28px;
+  }
+}
+
+/* Base button */
+.hero-btn-secondary {
+  background: transparent;
+  color: #fff;
+}
+
+.hero-btn-secondary:hover {
+  background: #fff;
+  color: #075b37;
+}
+
+.all-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  max-width: 100%;
+  border: 1px solid transparent;
+  border-radius: 999px;
+
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* Remove default button font differences */
+
+button.all-button {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Keyboard accessibility */
+
+.all-button:focus-visible {
+  outline: 3px solid rgba(27, 89, 55, 0.35);
+  outline-offset: 4px;
+}
+
+/* ==============================
+   BUTTON SIZES
+============================== */
+
+.all-button--small {
+  min-height: 40px;
+  padding: 9px 19px;
+  font-size: 14px;
+}
+
+.all-button--medium {
+  min-height: 50px;
+  padding: 13px 27px;
+  font-size: 16px;
+}
+
+.all-button--large {
+  min-height: 62px;
+  padding: 17px 32px;
+  font-size: 19px;
+}
+
+/* ==============================
+   PRIMARY: GREEN
+============================== */
+
+.all-button--primary {
+  background: var(--button-green);
+  color: var(--button-white);
+  border-color: var(--button-green);
+}
+
+.all-button--primary:hover:not(:disabled) {
+  background: var(--button-dark);
+  border-color: var(--button-dark);
+  box-shadow: 0 5px 14px rgba(6, 77, 48, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ==============================
+   LIME: MAIN CTA
+============================== */
+
+.all-button--lime {
+  background: var(--button-lime);
+  color: var(--button-dark);
+  border-color: var(--button-dark);
+  box-shadow: 3px 4px 0 var(--button-dark);
+}
+
+.all-button--lime:hover:not(:disabled) {
+  background: #e7f46d;
+  box-shadow: 1px 2px 0 var(--button-dark);
+  transform: translate(2px, 2px);
+}
+
+/* ==============================
+   OUTLINE: LEARN MORE
+============================== */
+
+.all-button--outline {
+  background: transparent;
+  color: var(--button-green);
+  border-color: var(--button-green);
+}
+
+.all-button--outline:hover:not(:disabled) {
+  background: var(--button-green);
+  color: var(--button-white);
+  transform: translateY(-2px);
+}
+
+/* ==============================
+   LIGHT: ON DARK BACKGROUNDS
+============================== */
+
+.all-button--light {
+  background: var(--button-white);
+  color: var(--button-green);
+  border-color: var(--button-white);
+}
+
+.all-button--light:hover:not(:disabled) {
+  background: var(--button-lime);
+  border-color: var(--button-lime);
+  color: var(--button-dark);
+  transform: translateY(-2px);
+}
+
+/* ==============================
+   TEXT-ONLY BUTTON
+============================== */
+
+.all-button--text {
+  min-height: auto;
+  padding: 8px 0;
+  border-color: transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--button-green);
+}
+
+.all-button--text:hover:not(:disabled) {
+  color: var(--button-dark);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ==============================
+   ICON
+============================== */
+
+.all-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.all-button__icon svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.all-button--small .all-button__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.all-button--large .all-button__icon svg {
+  width: 23px;
+  height: 23px;
+}
+
+/* ==============================
+   FULL-WIDTH BUTTON
+============================== */
+
+.all-button--full {
+  display: flex;
+  width: 100%;
+}
+
+/* ==============================
+   DISABLED BUTTON
+============================== */
+
+.all-button:disabled,
+.all-button[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+
+@media (max-width: 680px) {
+  .all-button--large {
+    min-height: 54px;
+    padding: 14px 24px;
+    font-size: 17px;
+  }
+
+  .all-button--medium {
+    min-height: 46px;
+    padding: 11px 22px;
+    font-size: 15px;
+  }
+}
+
+/* Respect reduced motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  .all-button {
+    transition: none;
+  }
+}

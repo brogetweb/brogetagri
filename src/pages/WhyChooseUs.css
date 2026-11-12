@@ -1,0 +1,675 @@
+/* =========================================
+   BROGET AGRICULTURE - WHY CHOOSE US
+========================================= */
+
+.broget-why-section {
+  --broget-green: #104a28;
+  --broget-dark-green: #092f1a;
+  --broget-yellow: #ffc629;
+  --broget-brown: #57330c;
+  --broget-text: #707a73;
+  --broget-white: #ffffff;
+
+  position: relative;
+  width: 100%;
+  padding: 80px 0 100px;
+  background-color: #ffffff;
+  overflow: hidden;
+  font-family: "DM Sans", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.broget-why-section *,
+.broget-why-section *::before,
+.broget-why-section *::after {
+  box-sizing: border-box;
+}
+
+.broget-why-container {
+  position: relative;
+  width: min(1240px, calc(100% - 80px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 65px;
+  align-items: start;
+}
+
+/* =========================================
+   LEFT IMAGE
+========================================= */
+
+.broget-why-visual {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  padding: 0 15px 0 0;
+}
+
+.broget-why-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 650px;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #e5eee5;
+}
+
+.broget-why-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s ease;
+}
+
+.broget-why-image-wrapper:hover .broget-why-image {
+  transform: scale(1.04);
+}
+
+.broget-why-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(5, 36, 17, 0.65) 0%,
+    rgba(5, 36, 17, 0.08) 40%,
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+.broget-why-image-caption {
+  position: absolute;
+  left: 28px;
+  right: 20px;
+  bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--broget-white);
+  font-size: 18px;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.broget-why-image-caption svg {
+  flex-shrink: 0;
+  color: var(--broget-yellow);
+}
+
+/* =========================================
+   DECORATIVE PLAY BUTTON
+========================================= */
+
+.broget-why-play-button {
+  position: absolute;
+  top: -25px;
+  left: -25px;
+  z-index: 2;
+  width: 142px;
+  height: 142px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 22px;
+  background: var(--broget-yellow);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.broget-why-play-outer {
+  width: 110px;
+  height: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: rgba(87, 51, 12, 0.17);
+  border: 9px solid rgba(87, 51, 12, 0.13);
+}
+
+.broget-why-play-inner {
+  width: 74px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--broget-brown);
+  color: var(--broget-white);
+  padding-left: 4px;
+}
+
+/* =========================================
+   RIGHT CONTENT
+========================================= */
+
+.broget-why-content {
+  min-width: 0;
+  padding-top: 55px;
+  padding-bottom: 90px;
+}
+
+.broget-why-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 20px;
+  color: #248b43;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.broget-why-eyebrow-line {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 55px;
+  height: 2px;
+  background: var(--broget-yellow);
+}
+
+.broget-why-eyebrow-line::after {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: -4px;
+  width: 24px;
+  height: 10px;
+  border-top: 2px solid var(--broget-yellow);
+  border-bottom: 2px solid var(--broget-yellow);
+  transform: skewX(-35deg);
+}
+
+.broget-why-eyebrow > svg {
+  display: none;
+}
+
+.broget-why-heading {
+  margin: 0 0 25px;
+  color: var(--broget-dark-green);
+  font-family: "Poppins", "DM Sans", Arial, sans-serif;
+  font-size: clamp(30px, 3vw, 43px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -1.1px;
+}
+
+.broget-why-heading span {
+  display: inline;
+}
+
+.broget-why-description {
+  margin: 0 0 16px;
+  color: var(--broget-text);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.9;
+}
+
+.broget-why-description-secondary {
+  margin-bottom: 27px;
+}
+
+/* =========================================
+   CTA BUTTON
+========================================= */
+
+.broget-why-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  min-height: 56px;
+  padding: 6px 7px 6px 27px;
+  border: 2px solid var(--broget-green);
+  border-radius: 50px;
+  background: var(--broget-green);
+  color: var(--broget-white);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.broget-why-button:hover {
+  background: var(--broget-dark-green);
+  border-color: var(--broget-dark-green);
+  color: var(--broget-white);
+  transform: translateY(-2px);
+}
+
+.broget-why-button-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--broget-yellow);
+  color: var(--broget-dark-green);
+  transition: transform 0.25s ease;
+}
+
+.broget-why-button:hover .broget-why-button-icon {
+  transform: translateX(2px);
+}
+
+/* =========================================
+   BOTTOM BENEFITS PANEL
+========================================= */
+
+.broget-why-benefits {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: -35px;
+  width: 91%;
+  min-height: 268px;
+  padding: 48px 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  border-radius: 22px;
+  background: var(--broget-brown);
+  box-shadow: 0 15px 35px rgba(58, 35, 9, 0.08);
+}
+
+.broget-why-benefit {
+  min-width: 0;
+  padding: 0 28px;
+  position: relative;
+}
+
+.broget-why-benefit + .broget-why-benefit {
+  border-left: 1px dashed rgba(255, 255, 255, 0.23);
+}
+
+.broget-why-check {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--broget-yellow);
+  color: var(--broget-brown);
+}
+
+.broget-why-benefit h3 {
+  margin: 0 0 15px;
+  color: var(--broget-white);
+  font-family: "Poppins", "DM Sans", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.broget-why-benefit p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.85;
+}
+
+/* =========================================
+   LARGE LAPTOPS
+========================================= */
+
+@media (max-width: 1200px) {
+  .broget-why-section {
+    padding: 70px 0 90px;
+  }
+
+  .broget-why-container {
+    width: calc(100% - 60px);
+    column-gap: 40px;
+  }
+
+  .broget-why-image-wrapper {
+    height: 590px;
+  }
+
+  .broget-why-content {
+    padding-top: 45px;
+    padding-bottom: 110px;
+  }
+
+  .broget-why-heading {
+    font-size: clamp(30px, 3.3vw, 39px);
+  }
+
+  .broget-why-benefits {
+    width: 94%;
+    padding: 38px 16px;
+  }
+
+  .broget-why-benefit {
+    padding: 0 20px;
+  }
+
+  .broget-why-benefit h3 {
+    font-size: 16px;
+  }
+
+  .broget-why-benefit p {
+    font-size: 13px;
+  }
+}
+
+/* =========================================
+   TABLETS AND SMALL LAPTOPS
+========================================= */
+
+@media (max-width: 900px) {
+  .broget-why-section {
+    padding: 65px 0 70px;
+  }
+
+  .broget-why-container {
+    width: calc(100% - 48px);
+    grid-template-columns: 1fr 1fr;
+    column-gap: 30px;
+  }
+
+  .broget-why-visual {
+    padding-right: 0;
+  }
+
+  .broget-why-image-wrapper {
+    height: 500px;
+    border-radius: 18px;
+  }
+
+  .broget-why-play-button {
+    top: -15px;
+    left: -12px;
+    width: 95px;
+    height: 95px;
+    border-radius: 16px;
+  }
+
+  .broget-why-play-outer {
+    width: 75px;
+    height: 75px;
+    border-width: 6px;
+  }
+
+  .broget-why-play-inner {
+    width: 51px;
+    height: 51px;
+  }
+
+  .broget-why-play-inner svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .broget-why-content {
+    padding-top: 25px;
+    padding-bottom: 155px;
+  }
+
+  .broget-why-eyebrow {
+    gap: 9px;
+    font-size: 13px;
+    margin-bottom: 15px;
+  }
+
+  .broget-why-eyebrow-line {
+    width: 32px;
+  }
+
+  .broget-why-heading {
+    font-size: clamp(25px, 3.3vw, 32px);
+    letter-spacing: -0.6px;
+    margin-bottom: 18px;
+  }
+
+  .broget-why-description {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .broget-why-description-secondary {
+    margin-bottom: 20px;
+  }
+
+  .broget-why-button {
+    min-height: 48px;
+    padding-left: 18px;
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  .broget-why-button-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .broget-why-benefits {
+    bottom: -20px;
+    width: 100%;
+    min-height: auto;
+    padding: 28px 12px;
+    border-radius: 18px;
+  }
+
+  .broget-why-benefit {
+    padding: 0 15px;
+  }
+
+  .broget-why-check {
+    width: 29px;
+    height: 29px;
+    margin-bottom: 16px;
+  }
+
+  .broget-why-benefit h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .broget-why-benefit p {
+    font-size: 12px;
+    line-height: 1.75;
+  }
+}
+
+/* =========================================
+   MOBILE PHONES
+========================================= */
+
+@media (max-width: 650px) {
+  .broget-why-section {
+    padding: 45px 0 45px;
+    overflow: hidden;
+  }
+
+  .broget-why-container {
+    width: calc(100% - 36px);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .broget-why-visual {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 30px;
+  }
+
+  .broget-why-image-wrapper {
+    width: 100%;
+    height: clamp(290px, 78vw, 420px);
+    border-radius: 16px;
+  }
+
+  .broget-why-play-button {
+    top: -10px;
+    left: -8px;
+    width: 82px;
+    height: 82px;
+    border-radius: 14px;
+  }
+
+  .broget-why-play-outer {
+    width: 65px;
+    height: 65px;
+    border-width: 5px;
+  }
+
+  .broget-why-play-inner {
+    width: 45px;
+    height: 45px;
+  }
+
+  .broget-why-image-caption {
+    left: 18px;
+    bottom: 20px;
+    font-size: 15px;
+  }
+
+  .broget-why-content {
+    width: 100%;
+    padding: 0 0 30px;
+  }
+
+  .broget-why-eyebrow {
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+
+  .broget-why-eyebrow-line {
+    width: 35px;
+  }
+
+  .broget-why-heading {
+    font-size: clamp(27px, 7vw, 36px);
+    line-height: 1.3;
+    letter-spacing: -0.7px;
+    margin-bottom: 18px;
+  }
+
+  .broget-why-heading span {
+    display: inline;
+  }
+
+  .broget-why-description {
+    font-size: 14px;
+    line-height: 1.85;
+    margin-bottom: 14px;
+  }
+
+  .broget-why-description-secondary {
+    margin-bottom: 22px;
+  }
+
+  .broget-why-button {
+    min-height: 52px;
+    padding: 5px 6px 5px 20px;
+    font-size: 13px;
+  }
+
+  .broget-why-button-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Benefits become a normal stacked section on mobile */
+  .broget-why-benefits {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 15px 22px;
+    border-radius: 16px;
+  }
+
+  .broget-why-benefit {
+    padding: 23px 0;
+  }
+
+  .broget-why-benefit + .broget-why-benefit {
+    border-left: none;
+    border-top: 1px dashed rgba(255, 255, 255, 0.3);
+  }
+
+  .broget-why-check {
+    margin-bottom: 13px;
+  }
+
+  .broget-why-benefit h3 {
+    font-size: 17px;
+    margin-bottom: 9px;
+  }
+
+  .broget-why-benefit p {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE PHONES
+========================================= */
+
+@media (max-width: 380px) {
+  .broget-why-container {
+    width: calc(100% - 28px);
+  }
+
+  .broget-why-image-wrapper {
+    height: 270px;
+  }
+
+  .broget-why-heading {
+    font-size: 26px;
+  }
+
+  .broget-why-eyebrow {
+    font-size: 12px;
+    gap: 7px;
+  }
+
+  .broget-why-button {
+    gap: 10px;
+    padding-left: 14px;
+    font-size: 12px;
+  }
+
+  .broget-why-benefits {
+    padding: 10px 17px;
+  }
+
+  .broget-why-benefit h3 {
+    font-size: 16px;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .broget-why-section *,
+  .broget-why-section *::before,
+  .broget-why-section *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
