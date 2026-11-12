@@ -102,6 +102,7 @@ const ContactUs = () => {
                       Prinsengracht 890, 00000000 PM Amsterdam
                       <br />
                       Sambhajinagar
+                      Pin Code : 431111
                     </p>
                   </div>
                 </div>
