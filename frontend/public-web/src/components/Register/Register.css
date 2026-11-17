@@ -1,0 +1,365 @@
+
+/* ================================
+   REGISTER PAGE
+================================ */
+
+.register-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f7f4;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+.register-page *,
+.register-page *::before,
+.register-page *::after {
+  box-sizing: border-box;
+}
+
+/* ================================
+   REGISTER CONTAINER
+================================ */
+
+.register-container {
+  width: 100%;
+  max-width: 700px;
+  min-height: 700px;
+  padding: 40px 40px;
+  background: #003d25;
+  border-radius: 22px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.register-header {
+  width: 100%;
+  margin-bottom: 36px;
+}
+
+.register-header h2 {
+  margin: 0 0 18px;
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #ffffff;
+}
+
+.register-header p {
+  max-width: 900px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.9;
+  color: #f0f5f1;
+}
+
+/* ================================
+   FORM
+================================ */
+
+.register-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.register-form input {
+  width: 100%;
+  height: 50px;
+  padding: 0 22px;
+  border: 1px solid rgba(255, 255, 255, 0.19);
+  border-radius: 50px;
+  outline: none;
+  background: #20513e;
+  color: #ffffff;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.register-form input::placeholder {
+  color: #ffffff;
+  opacity: 0.95;
+}
+
+.register-form input:focus {
+  border-color: #d9e95a;
+  background: #245943;
+  box-shadow: 0 0 0 3px rgba(217, 233, 90, 0.12);
+}
+
+/* ================================
+   ROLE SELECT
+================================ */
+
+.register-role {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.register-role select {
+  min-width: 190px;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid rgba(217, 233, 90, 0.6);
+  border-radius: 8px;
+  outline: none;
+  background: #20513e;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.register-role select option {
+  background: #ffffff;
+  color: #003d25;
+}
+
+/* ================================
+   OWNER NOTICE
+================================ */
+
+.register-owner-notice {
+  margin: 0;
+  padding: 14px 18px;
+  border-left: 3px solid #d9e95a;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ================================
+   ERROR MESSAGE
+================================ */
+
+.register-error {
+  width: 100%;
+  margin-bottom: 22px;
+  padding: 14px 18px;
+  border: 1px solid #ff8585;
+  border-radius: 10px;
+  background: rgba(255, 0, 0, 0.12);
+  color: #ffffff;
+  font-size: 15px;
+}
+
+/* ================================
+   BOTTOM SECTION
+================================ */
+
+.register-bottom {
+  width: 100%;
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.register-tagline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.register-check {
+  color: #d9e95a;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* ================================
+   SUBMIT BUTTON
+================================ */
+
+.register-submit {
+  min-width: 240px;
+  min-height: 50px;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 50px;
+  background: #d9e95a;
+  color: #064d30;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.register-submit:hover {
+  background: #e7f477;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.15);
+}
+
+.register-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ================================
+   LOGIN LINK
+================================ */
+
+.register-login-link {
+  margin-top: 30px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.register-login-link a {
+  color: #d9e95a;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.register-login-link a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* ================================
+   TABLET RESPONSIVE
+================================ */
+
+@media (max-width: 768px) {
+  .register-page {
+    padding: 15px;
+  }
+
+  .register-container {
+    min-height: auto;
+    padding: 45px 30px;
+    border-radius: 18px;
+  }
+
+  .register-header h2 {
+    font-size: 29px;
+  }
+
+  .register-header p {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .register-form {
+    gap: 20px;
+  }
+
+  .register-form input {
+    height: 64px;
+    font-size: 16px;
+  }
+
+  .register-bottom {
+    margin-top: 22px;
+  }
+
+  .register-tagline {
+    font-size: 16px;
+  }
+
+  .register-submit {
+    min-width: 190px;
+    min-height: 58px;
+    font-size: 17px;
+  }
+}
+
+/* ================================
+   MOBILE RESPONSIVE
+================================ */
+
+@media (max-width: 480px) {
+  .register-page {
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .register-container {
+    padding: 35px 20px;
+    border-radius: 15px;
+  }
+
+  .register-header {
+    margin-bottom: 27px;
+  }
+
+  .register-header h2 {
+    font-size: 25px;
+    line-height: 1.35;
+    margin-bottom: 13px;
+  }
+
+  .register-header p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .register-form {
+    gap: 17px;
+  }
+
+  .register-form input {
+    height: 58px;
+    padding: 0 18px;
+    font-size: 14px;
+  }
+
+  .register-role select {
+    width: 100%;
+    height: 48px;
+    font-size: 14px;
+  }
+
+  .register-bottom {
+    margin-top: 15px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .register-tagline {
+    font-size: 16px;
+  }
+
+  .register-check {
+    font-size: 25px;
+  }
+
+  .register-submit {
+    width: 100%;
+    min-height: 58px;
+    font-size: 17px;
+  }
+
+  .register-login-link {
+    margin-top: 25px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .register-error {
+    font-size: 13px;
+  }
+}

@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import AllButtons from "../AllButtons";
 
@@ -10,10 +10,12 @@ const menuItems = [
     links: [
       { label: "About Us", to: "/AboutUs" },
       { label: "Government Schemes", to: "/Government-Schemes" },
-      { label: "Business Ideas for Farmers", to: "/Business-Ideas-for-Farmers" },
+      {
+        label: "Business Ideas for Farmers",
+        to: "/Business-Ideas-for-Farmers",
+      },
       { label: "Our Team", to: "/OurTeam" },
       { label: "Testimonials", to: "/Testimonial" },
-      // { label: "BuilderDemo", to: "/BuilderDemo" }
     ],
   },
 ];
@@ -24,7 +26,12 @@ function LogoMark() {
 
 function CartIcon() {
   return (
-    <svg viewBox="0 0 32 32" className="cart-svg" fill="none" aria-hidden="true">
+    <svg
+      viewBox="0 0 32 32"
+      className="cart-svg"
+      fill="none"
+      aria-hidden="true"
+    >
       <text x="16" y="25" fontSize="25" textAnchor="middle">
         🌤️
       </text>
@@ -33,9 +40,44 @@ function CartIcon() {
 }
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // Login status
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => Boolean(localStorage.getItem("token"))
+  );
+
+  // Update login status
+  useEffect(() => {
+    const updateAuthStatus = () => {
+      setIsLoggedIn(Boolean(localStorage.getItem("token")));
+    };
+
+    window.addEventListener("authChanged", updateAuthStatus);
+
+    // Also check when another browser tab changes localStorage
+    window.addEventListener("storage", updateAuthStatus);
+
+    return () => {
+      window.removeEventListener("authChanged", updateAuthStatus);
+      window.removeEventListener("storage", updateAuthStatus);
+    };
+  }, []);
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    setIsLoggedIn(false);
+    closeMenus();
+
+    navigate("/LogIn");
+  };
 
   const closeMenus = () => {
     setMenuOpen(false);
@@ -54,7 +96,9 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 80);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
     handleScroll();
 
@@ -66,7 +110,9 @@ export default function Navbar() {
   // Close menus on Escape and outside click
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") closeMenus();
+      if (event.key === "Escape") {
+        closeMenus();
+      }
     };
 
     const handleOutsideClick = (event) => {
@@ -86,24 +132,37 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Header spacing when navbar becomes fixed */}
-      <div className={`header-spacer ${isScrolled ? "spacer-active" : ""}`} />
+      <div
+        className={`header-spacer ${
+          isScrolled ? "spacer-active" : ""
+        }`}
+      />
 
-      <header className={`site-header ${isScrolled ? "header-fixed" : ""}`}>
+      <header
+        className={`site-header ${
+          isScrolled ? "header-fixed" : ""
+        }`}
+      >
         <div className="header-container">
 
           {/* Brand */}
           <Link to="/" className="brand" onClick={closeMenus}>
             <LogoMark />
+
             <span className="brand-name">
-              <img src="/src/assets/images/logo.jpg" alt="Broget Agriculture" />
+              <img
+                src="/src/assets/images/logo.jpg"
+                alt="Broget Agriculture"
+              />
             </span>
           </Link>
 
           {/* Mobile hamburger */}
           <button
             type="button"
-            className={`menu-toggle ${menuOpen ? "is-open" : ""}`}
+            className={`menu-toggle ${
+              menuOpen ? "is-open" : ""
+            }`}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="primary-navigation"
@@ -117,13 +176,19 @@ export default function Navbar() {
           {/* Navigation */}
           <nav
             id="primary-navigation"
-            className={`primary-navigation ${menuOpen ? "nav-open" : ""}`}
+            className={`primary-navigation ${
+              menuOpen ? "nav-open" : ""
+            }`}
             aria-label="Main navigation"
           >
             <ul className="nav-list">
 
               <li className="nav-item home-item">
-                <Link className="nav-link" to="/" onClick={closeMenus}>
+                <Link
+                  className="nav-link"
+                  to="/"
+                  onClick={closeMenus}
+                >
                   Home
                 </Link>
               </li>
@@ -131,14 +196,18 @@ export default function Navbar() {
               {menuItems.map((item) => (
                 <li
                   className={`nav-item ${
-                    activeDropdown === item.name ? "dropdown-open" : ""
+                    activeDropdown === item.name
+                      ? "dropdown-open"
+                      : ""
                   }`}
                   key={item.name}
                 >
                   <button
                     type="button"
                     className="nav-link dropdown-button"
-                    aria-expanded={activeDropdown === item.name}
+                    aria-expanded={
+                      activeDropdown === item.name
+                    }
                     onClick={() => toggleDropdown(item.name)}
                   >
                     {item.name}
@@ -148,7 +217,10 @@ export default function Navbar() {
                   <ul className="dropdown-menu">
                     {item.links.map((link) => (
                       <li key={link.label}>
-                        <Link to={link.to} onClick={closeMenus}>
+                        <Link
+                          to={link.to}
+                          onClick={closeMenus}
+                        >
                           {link.label}
                         </Link>
                       </li>
@@ -158,19 +230,31 @@ export default function Navbar() {
               ))}
 
               <li className="nav-item contact-item">
-                <Link className="nav-link" to="/Service" onClick={closeMenus}>
+                <Link
+                  className="nav-link"
+                  to="/Service"
+                  onClick={closeMenus}
+                >
                   Services
                 </Link>
               </li>
 
               <li className="nav-item contact-item">
-                <Link className="nav-link" to="/Blog" onClick={closeMenus}>
+                <Link
+                  className="nav-link"
+                  to="/Blog"
+                  onClick={closeMenus}
+                >
                   Blog
                 </Link>
               </li>
 
               <li className="nav-item contact-item">
-                <Link className="nav-link" to="/ContactUs" onClick={closeMenus}>
+                <Link
+                  className="nav-link"
+                  to="/ContactUs"
+                  onClick={closeMenus}
+                >
                   Contact
                 </Link>
               </li>
@@ -178,30 +262,30 @@ export default function Navbar() {
             </ul>
           </nav>
 
-          {/* Cart and CTA */}
+          {/* Header Actions */}
           <div className="header-actions">
-            <a
-  href="https://api.openweathermap.org/data/2.5/weather?q=Aurangabad&appid=YOUR_API_KEY&units=metric"
-  className="cart-link"
-  aria-label="Check Aurangabad weather"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  <CartIcon />
-</a>
 
             <span className="header-divider" />
 
-            <AllButtons
-              variant="lime"
-              size="medium"
-              href="#get-started"
-              className="cta-button"
-            >
-              Start Growing Now
-            </AllButtons>
-          </div>
+            {isLoggedIn ? (
+              <button
+                type="button"
+                className="hero-btn hero-btn-secondary"
+                onClick={handleLogout}
+              >
+                Log Out
+              </button>
+            ) : (
+              <Link
+                to="/LogIn"
+                className="hero-btn hero-btn-secondary"
+                onClick={closeMenus}
+              >
+                Log In
+              </Link>
+            )}
 
+          </div>
         </div>
       </header>
     </>

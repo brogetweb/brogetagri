@@ -14,6 +14,12 @@ const ContactUs = () => {
     agree: true,
   });
 
+  const [loading, setLoading] = useState(false);
+const [submitMessage, setSubmitMessage] = useState({
+  type: "",
+  text: "",
+});
+
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
 
@@ -23,17 +29,56 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    if (!formData.agree) {
-      alert("Please agree to the terms and conditions.");
-      return;
+  if (!formData.agree) {
+    alert("Please agree to the terms and conditions.");
+    return;
+  }
+
+  // Your backend requires an authenticated farmer
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    setSubmitMessage({
+      type: "error",
+      text: "Please log in before submitting your enquiry.",
+    });
+    return;
+  }
+
+  try {
+    setLoading(true);
+    setSubmitMessage({ type: "", text: "" });
+
+    const response = await fetch(
+      "http://localhost:3000/api/contact",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: `Support Required: ${formData.support}\n\n${formData.message}`,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Unable to submit your enquiry.");
     }
 
-    // Connect your backend or email service here.
-    console.log("Contact form submitted:", formData);
-    alert("Thank you! Your message is ready to be submitted.");
+    setSubmitMessage({
+      type: "success",
+      text: data.message || "Your enquiry has been submitted successfully.",
+    });
 
     setFormData({
       name: "",
@@ -43,7 +88,19 @@ const ContactUs = () => {
       message: "",
       agree: true,
     });
-  };
+
+  } catch (error) {
+    console.error("Contact form submission error:", error);
+
+    setSubmitMessage({
+      type: "error",
+      text: error.message || "Something went wrong. Please try again.",
+    });
+
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>
@@ -188,6 +245,14 @@ const ContactUs = () => {
             </div>
 
             <form className="contact-form" onSubmit={handleSubmit}>
+              {submitMessage.text && (
+  <div
+    className={`contact-alert ${submitMessage.type}`}
+    role="alert"
+  >
+    {submitMessage.text}
+  </div>
+)}
               <div className="contact-input-grid">
                 <input
                   type="text"
@@ -278,18 +343,24 @@ const ContactUs = () => {
                   <span>Agree to our terms and conditions</span>
                 </label>
 
-                <button
-                  type="submit"
-                  className="contact-submit-btn"
-                >
-                  <span>Send Message</span>
-                  <span
-                    className="contact-submit-arrow"
-                    aria-hidden="true"
-                  >
-                    ›
-                  </span>
-                </button>
+               <button
+  type="submit"
+  className="contact-submit-btn"
+  disabled={loading}
+>
+  <span>
+    {loading ? "Submitting..." : "Send Message"}
+  </span>
+
+  {!loading && (
+    <span
+      className="contact-submit-arrow"
+      aria-hidden="true"
+    >
+      ›
+    </span>
+  )}
+</button>
               </div>
             </form>
           </div>

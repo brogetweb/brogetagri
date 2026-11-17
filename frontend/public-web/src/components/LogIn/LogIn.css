@@ -1,0 +1,486 @@
+
+/* =================================
+   BROGET AGRICULTURE LOGIN SECTION
+================================= */
+/* Login Role Dropdown */
+
+.broget-login-field {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.broget-login-field select {
+  width: 100%;
+  height: 65px;
+  padding: 0 55px 0 25px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-color: #20513e;
+  color: #ffffff;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 40px;
+
+  font-size: 17px;
+  font-family: inherit;
+  font-weight: 500;
+
+  outline: none;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+/* Custom Dropdown Arrow */
+
+.broget-login-field::after {
+  content: "";
+  position: absolute;
+
+  top: 50%;
+  right: 27px;
+
+  width: 10px;
+  height: 10px;
+
+  border-right: 2px solid #d9e95a;
+  border-bottom: 2px solid #d9e95a;
+
+  transform: translateY(-70%) rotate(45deg);
+
+  pointer-events: none;
+}
+
+/* Hover Effect */
+
+.broget-login-field select:hover {
+  border-color: #d9e95a;
+  background-color: #285b43;
+}
+
+/* Focus Effect */
+
+.broget-login-field select:focus {
+  border-color: #d9e95a;
+  box-shadow: 0 0 0 3px rgba(217, 233, 90, 0.12);
+}
+
+/* Dropdown Options */
+
+.broget-login-field select option {
+  background-color: #ffffff;
+  color: #064d30;
+  padding: 12px;
+  font-size: 16px;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 480px) {
+  .broget-login-field select {
+    height: 58px;
+    padding-left: 20px;
+    font-size: 15px;
+  }
+
+  .broget-login-field::after {
+    right: 23px;
+  }
+}
+.broget-login-section {
+  width: 100%;
+  min-height: 100vh;
+  padding: 30px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f7f4;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+.broget-login-section * {
+  box-sizing: border-box;
+}
+
+/* Main Container */
+
+.broget-login-container {
+  width: 100%;
+  max-width: 500px;
+  padding: 28px;
+  background: #003b20;
+  border-radius: 16px;
+  color: #ffffff;
+}
+
+/* Heading */
+
+.broget-login-heading {
+  margin-bottom: 28px;
+}
+
+.broget-login-heading h2 {
+  margin: 0 0 12px;
+  font-size: 25px;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+  color: #ffffff;
+}
+
+.broget-login-heading p {
+  max-width: 680px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  font-weight: 400;
+  color: #e4eee7;
+}
+
+/* Form */
+
+.broget-login-form {
+  width: 100%;
+}
+
+/* Input Fields */
+
+.broget-login-field {
+  width: 100%;
+  height: 58px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.broget-login-field input {
+  width: 100%;
+  height: 100%;
+  padding: 0 17px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50px;
+  outline: none;
+  background: #204d38;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.broget-login-field input::placeholder {
+  color: #e5eee8;
+  opacity: 1;
+}
+
+.broget-login-field input:focus {
+  border-color: #dce95c;
+  background: #25563e;
+  box-shadow: 0 0 0 3px rgba(220, 233, 92, 0.08);
+}
+
+/* Password Field */
+
+.broget-password-field input {
+  padding-right: 55px;
+}
+
+.broget-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 17px;
+  transform: translateY(-50%);
+  width: 27px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #c5d5cb;
+  cursor: pointer;
+}
+
+.broget-password-toggle svg {
+  width: 21px;
+  height: 21px;
+}
+
+/* Remember & Forgot Password */
+
+.broget-login-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 4px 0 34px;
+}
+
+.broget-remember-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  color: #e5eee8;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.broget-remember-label input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.broget-custom-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #dce95c;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.broget-remember-label input:checked
+  + .broget-custom-checkbox {
+  background: #dce95c;
+}
+
+.broget-remember-label input:checked
+  + .broget-custom-checkbox::after {
+  content: "✓";
+  color: #003b20;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.broget-remember-label input:focus-visible
+  + .broget-custom-checkbox {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.broget-login-options a {
+  color: #dce95c;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.broget-login-options a:hover {
+  color: #ffffff;
+}
+
+/* Bottom Section */
+
+.broget-login-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.broget-login-tagline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.broget-login-check {
+  color: #dce95c;
+  font-size: 27px;
+  font-weight: 400;
+}
+
+/* Login Button */
+
+.broget-login-submit {
+  min-width: 175px;
+  min-height: 52px;
+  padding: 12px 25px;
+  border: 1px solid #c8dc45;
+  border-radius: 50px;
+  background: #dce95c;
+  color: #17472b;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.broget-login-submit:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.broget-login-submit:active {
+  transform: scale(0.97);
+}
+
+.broget-login-submit:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
+
+/* Register */
+
+.broget-login-register {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 14px;
+  color: #e5eee8;
+}
+
+.broget-login-register a {
+  color: #dce95c;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.broget-login-register a:hover {
+  color: #ffffff;
+}
+
+/* =================================
+   RESPONSIVE DESIGN
+================================= */
+
+/* Large Desktop */
+
+@media (min-width: 1200px) {
+  .broget-login-container {
+    max-width: 850px;
+    padding: 45px;
+  }
+
+  .broget-login-heading h2 {
+    font-size: 28px;
+  }
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+  .broget-login-section {
+    padding: 30px 18px;
+  }
+
+  .broget-login-container {
+    max-width: 620px;
+    padding: 32px;
+  }
+
+  .broget-login-heading h2 {
+    font-size: 23px;
+  }
+
+  .broget-login-heading p {
+    font-size: 14px;
+  }
+
+  .broget-login-field {
+    height: 55px;
+  }
+
+  .broget-login-bottom {
+    gap: 15px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .broget-login-section {
+    min-height: 100vh;
+    padding: 20px 12px;
+  }
+
+  .broget-login-container {
+    padding: 25px 18px;
+    border-radius: 14px;
+  }
+
+  .broget-login-heading {
+    margin-bottom: 25px;
+  }
+
+  .broget-login-heading h2 {
+    font-size: 21px;
+    line-height: 1.4;
+  }
+
+  .broget-login-heading p {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .broget-login-field {
+    height: 52px;
+    margin-bottom: 16px;
+  }
+
+  .broget-login-field input {
+    font-size: 14px;
+    padding-left: 14px;
+  }
+
+  .broget-login-options {
+    margin: 5px 0 28px;
+    gap: 8px;
+  }
+
+  .broget-remember-label,
+  .broget-login-options a {
+    font-size: 12px;
+  }
+
+  .broget-login-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+  }
+
+  .broget-login-tagline {
+    font-size: 14px;
+  }
+
+  .broget-login-submit {
+    width: 100%;
+    min-height: 50px;
+  }
+
+  .broget-login-register {
+    font-size: 13px;
+  }
+}
+
+/* Extra Small Mobile */
+
+@media (max-width: 350px) {
+  .broget-login-container {
+    padding: 22px 14px;
+  }
+
+  .broget-login-heading h2 {
+    font-size: 19px;
+  }
+
+  .broget-login-options {
+    align-items: flex-start;
+  }
+
+  .broget-remember-label,
+  .broget-login-options a {
+    font-size: 11px;
+  }
+}

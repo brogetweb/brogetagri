@@ -11,7 +11,15 @@
 * {
   box-sizing: border-box;
 }
-
+button.hero-btn {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color:#064d30;
+}
 .site-header {
   position: relative;
   z-index: 1000;

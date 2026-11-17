@@ -20,8 +20,8 @@ import WhyChooseUs from "./pages/WhyChooseUs";
 import OurTeam from "./pages/OurTeam";
 import Testimonial from "./pages/Testimonial";
 // import BuilderDemo from "./pages/BuilderDemo";
-
-
+import LogIn from "./components/LogIn/LogIn";
+import Register from "./components/Register/Register";
 
 function Home() {
   return (
@@ -85,7 +85,8 @@ export default function App() {
 <Route path="/OurTeam" element={< OurTeam/>} />
 <Route path="/Testimonial" element={<Testimonial />} />
 {/* <Route path="/BuilderDemo" element={<BuilderDemo />} /> */}
-
+<Route path="/LogIn" element={<LogIn />} />
+<Route path="/Register" element={<Register />} />
       </Routes>
 
       <Footer />
