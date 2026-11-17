@@ -5,52 +5,52 @@ import "./AgricultureServices.css";
 const products = [
   {
     id: 1,
-    title: "Organic Vegetables",
+    title: "Digital Farming",
     price: "₹850",
     oldPrice: "₹1,000",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?auto=format&fit=crop&w=1200&q=85",
     imageAlt: "Fresh organic vegetables",
   },
   {
     id: 2,
-    title: "Fresh Farm Produce Box",
+    title: "Contract Farming",
     price: "₹1,250",
     oldPrice: "₹1,500",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=1200&q=85",
     imageAlt: "Fresh farm produce",
   },
   {
     id: 3,
-    title: "Nature's Fresh Pick",
+    title: "Smart Irrigation",
     price: "₹1,450",
     oldPrice: "₹1,700",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1200&q=85",
     imageAlt: "Freshly harvested vegetables",
   },
   {
     id: 4,
-    title: "GreenNest Harvest",
+    title: "Soil Testing",
     price: "₹950",
     oldPrice: "₹1,200",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85",
     imageAlt: "Green produce from local farms",
   },
   {
     id: 5,
-    title: "Healthy Harvest Basket",
+    title: "Organic Farming",
     price: "₹1,100",
     oldPrice: "₹1,350",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?auto=format&fit=crop&w=1200&q=85",
     imageAlt: "A basket of fresh vegetables",
   },
 ];
@@ -172,17 +172,14 @@ function ProductCard({ product, isFavorite, onFavorite, onAction }) {
         <h2>{product.title}</h2>
 
 <div className="agri-product-bottom">
-  <a
-    href={product.link || "#"}
+  <Link
+    to="/Service"
     className="agri-read-more"
     aria-label={`Read more about ${product.title}`}
-    onClick={(event) => {
-      if (!product.link) event.preventDefault();
-    }}
   >
     Read More
     <span aria-hidden="true">↗</span>
-  </a>
+  </Link>
 </div>
 
         {/* <div className="agri-product-bottom">

@@ -19,7 +19,6 @@ import GovernmentSchemes from "./components/GovernmentSchemes";
 import WhyChooseUs from "./pages/WhyChooseUs";
 import OurTeam from "./pages/OurTeam";
 import Testimonial from "./pages/Testimonial";
-// import BuilderDemo from "./pages/BuilderDemo";
 import LogIn from "./components/LogIn/LogIn";
 import Register from "./components/Register/Register";
 

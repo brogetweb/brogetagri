@@ -1,11 +1,12 @@
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Register.css";
 
 function Register() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -17,6 +18,11 @@ function Register() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Message received from Login page
+  const [notice, setNotice] = useState(
+    location.state?.message || ""
+  );
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -24,8 +30,12 @@ function Register() {
       ...prev,
       [name]: value,
     }));
+
+    setError("");
+    setNotice("");
   };
 
+  // Handle registration
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -49,49 +59,29 @@ function Register() {
         }
       );
 
-      const registeredUser = response.data.user;
-      const token = response.data.token;
+      // Registration successful
+      // Do NOT save token or user here.
+      // User must log in separately.
 
-      if (!registeredUser || !token) {
-        throw new Error("Registration response is incomplete.");
-      }
+      navigate("/LogIn", {
+        replace: true,
+        state: {
+          message:
+            response.data.message ||
+            "Registration successful! Please log in with your new account.",
+          type: "success",
+        },
+      });
 
-      // Save authenticated session
-      localStorage.setItem("token", token);
-      localStorage.setItem(
-        "user",
-        JSON.stringify(registeredUser)
-      );
-
-      // Update Navbar immediately
-      window.dispatchEvent(new Event("authChanged"));
-
-      // Redirect according to account type
-      if (registeredUser.role === "owner") {
-        if (registeredUser.approvalStatus === "approved") {
-          alert("Your owner account is approved.");
-          navigate("/owner-dashboard", { replace: true });
-        } else {
-          alert(
-            "Registration successful! Your application is under review. We will update you within 24 hours."
-          );
-
-          navigate("/owner-application-status", {
-            replace: true,
-          });
-        }
-      } else {
-        alert("Registration successful!");
-        navigate("/", { replace: true });
-      }
     } catch (err) {
       console.error("Registration error:", err);
 
       setError(
         err.response?.data?.message ||
-          err.message ||
-          "Registration failed. Please try again."
+        err.message ||
+        "Registration failed. Please try again."
       );
+
     } finally {
       setLoading(false);
     }
@@ -111,6 +101,14 @@ function Register() {
           </p>
         </div>
 
+        {/* Message from Login page */}
+        {notice && (
+          <div className="register-notice" role="status">
+            {notice}
+          </div>
+        )}
+
+        {/* Error Message */}
         {error && (
           <div className="register-error" role="alert">
             {error}
@@ -192,7 +190,7 @@ function Register() {
 
         <div className="register-login-link">
           Already have an account?{" "}
-          <Link to="/login">Login Now</Link>
+          <Link to="/LogIn">Login Now</Link>
         </div>
 
       </div>

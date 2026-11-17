@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import AllButtons from "../AllButtons";
 
 const menuItems = [
   {
@@ -51,16 +50,23 @@ export default function Navbar() {
     () => Boolean(localStorage.getItem("token"))
   );
 
-  // Update login status
+  // Close menus
+  const closeMenus = () => {
+    setMenuOpen(false);
+    setActiveDropdown(null);
+  };
+
+  // Update Navbar after login, registration or logout
   useEffect(() => {
     const updateAuthStatus = () => {
       setIsLoggedIn(Boolean(localStorage.getItem("token")));
     };
 
     window.addEventListener("authChanged", updateAuthStatus);
-
-    // Also check when another browser tab changes localStorage
     window.addEventListener("storage", updateAuthStatus);
+
+    // Check current login status
+    updateAuthStatus();
 
     return () => {
       window.removeEventListener("authChanged", updateAuthStatus);
@@ -76,12 +82,11 @@ export default function Navbar() {
     setIsLoggedIn(false);
     closeMenus();
 
-    navigate("/LogIn");
-  };
+    // Update Navbar immediately
+    window.dispatchEvent(new Event("authChanged"));
 
-  const closeMenus = () => {
-    setMenuOpen(false);
-    setActiveDropdown(null);
+    // Redirect to Home page
+    navigate("/", { replace: true });
   };
 
   const toggleDropdown = (name) => {
@@ -90,7 +95,7 @@ export default function Navbar() {
     );
   };
 
-  // Sticky navbar on scroll
+  // Sticky Navbar on scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 80);

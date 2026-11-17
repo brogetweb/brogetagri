@@ -3,6 +3,17 @@
    REGISTER PAGE
 ================================ */
 
+.register-notice {
+  color: #1b5937;
+  background: #eaf7ee;
+  border: 1px solid #a9d9b6;
+  padding: 12px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
 .register-page {
   width: 100%;
   min-height: 100vh;

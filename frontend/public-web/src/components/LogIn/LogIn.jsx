@@ -1,24 +1,22 @@
 
 import React, { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./LogIn.css";
 
-
-
 const LogIn = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [formData, setFormData] = useState({
-  email: "",
-  password: "",
-  role: "farmer",
-});
+    email: "",
+    password: "",
+    role: "farmer",
+  });
 
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Handle input changes
@@ -31,34 +29,82 @@ const LogIn = () => {
     }));
 
     setError("");
+    setSuccess("");
   };
 
   // Handle login submission
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await axios.post(
-      "http://localhost:3000/api/auth/login",
-      formData
-    );
+    setError("");
+    setSuccess("");
+    setLoading(true);
 
-    const user = response.data.user;
-    const token = response.data.token;
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        formData
+      );
 
-    // Save login session
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
+      const user = response.data.user;
+      const token = response.data.token;
 
-    // Update Navbar immediately
-    window.dispatchEvent(new Event("authChanged"));
+      if (!user || !token) {
+        throw new Error("Invalid login response from server.");
+      }
 
-    // Your existing navigation logic goes here
+      // Save login session
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
 
-  } catch (error) {
-    console.error("Login error:", error);
-  }
-};
+      // Update Navbar immediately
+      window.dispatchEvent(new Event("authChanged"));
+
+      // Show success message
+      setSuccess("Login successful! Redirecting to Home page...");
+
+      // Redirect to Home page
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 1500);
+
+    } catch (err) {
+      console.error("Login error:", err);
+
+      const status = err.response?.status;
+      const message =
+        err.response?.data?.message ||
+        "Login failed. Please check your details and try again.";
+
+      const lowerMessage = message.toLowerCase();
+
+      // Check whether the user has registered
+      const isNotRegistered =
+        status === 404 ||
+        lowerMessage.includes("not registered") ||
+        lowerMessage.includes("user not found") ||
+        lowerMessage.includes("no account found") ||
+        lowerMessage.includes("account does not exist");
+
+      if (isNotRegistered) {
+        // Redirect to Register page with a message
+        navigate("/Register", {
+          replace: true,
+          state: {
+            message:
+              "You are not registered yet. Please create your Broget Agriculture account.",
+          },
+        });
+      } else {
+        // Show incorrect password or other login error
+        setError(message);
+      }
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="broget-login-section">
       <div className="broget-login-container">
@@ -151,17 +197,18 @@ const LogIn = () => {
             </button>
           </div>
 
- <div className="broget-login-field">
-  <select
-    name="role"
-    value={formData.role}
-    onChange={handleChange}
-    required
-  >
-    <option value="farmer">Login as Farmer</option>
-    <option value="admin">Login as Admin</option>
-  </select>
-</div>
+          {/* Role Selection */}
+          <div className="broget-login-field">
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              required
+            >
+              <option value="farmer">Login as Farmer</option>
+              <option value="admin">Login as Admin</option>
+            </select>
+          </div>
 
           {/* Error Message */}
           {error && (
@@ -170,16 +217,20 @@ const LogIn = () => {
             </div>
           )}
 
+          {/* Success Message */}
+          {success && (
+            <div className="broget-login-success" role="status">
+              {success}
+            </div>
+          )}
+
           {/* Remember Me & Forgot Password */}
           <div className="broget-login-options">
-
             <label className="broget-remember-label">
               <input
                 type="checkbox"
                 checked={rememberMe}
-                onChange={(e) =>
-                  setRememberMe(e.target.checked)
-                }
+                onChange={(e) => setRememberMe(e.target.checked)}
               />
 
               <span className="broget-custom-checkbox"></span>
@@ -189,12 +240,10 @@ const LogIn = () => {
             <Link to="/forgot-password">
               Forgot Password?
             </Link>
-
           </div>
 
           {/* Bottom Action */}
           <div className="broget-login-bottom">
-
             <div className="broget-login-tagline">
               <span className="broget-login-check">✓</span>
               <span>Purity In Every Grain</span>
@@ -207,7 +256,6 @@ const LogIn = () => {
             >
               {loading ? "Logging In..." : "Login Now"}
             </button>
-
           </div>
         </form>
 

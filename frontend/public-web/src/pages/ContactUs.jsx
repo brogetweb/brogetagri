@@ -1,10 +1,13 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AllPagesBanner from "../components/Banner/AllPagesBanner";
 import contactBanner from "../assets/images/Home-Banner/1.png";
 import "./ContactUs.css";
 
 const ContactUs = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,11 +18,13 @@ const ContactUs = () => {
   });
 
   const [loading, setLoading] = useState(false);
-const [submitMessage, setSubmitMessage] = useState({
-  type: "",
-  text: "",
-});
 
+  const [submitMessage, setSubmitMessage] = useState({
+    type: "",
+    text: "",
+  });
+
+  // Handle form fields
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
 
@@ -27,80 +32,114 @@ const [submitMessage, setSubmitMessage] = useState({
       ...previous,
       [name]: type === "checkbox" ? checked : value,
     }));
+
+    setSubmitMessage({ type: "", text: "" });
   };
 
+  // Handle contact form submission
   const handleSubmit = async (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  if (!formData.agree) {
-    alert("Please agree to the terms and conditions.");
-    return;
-  }
-
-  // Your backend requires an authenticated farmer
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    setSubmitMessage({
-      type: "error",
-      text: "Please log in before submitting your enquiry.",
-    });
-    return;
-  }
-
-  try {
-    setLoading(true);
-    setSubmitMessage({ type: "", text: "" });
-
-    const response = await fetch(
-      "http://localhost:3000/api/contact",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: `Support Required: ${formData.support}\n\n${formData.message}`,
-        }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Unable to submit your enquiry.");
+    if (!formData.agree) {
+      setSubmitMessage({
+        type: "error",
+        text: "Please agree to the terms and conditions.",
+      });
+      return;
     }
 
-    setSubmitMessage({
-      type: "success",
-      text: data.message || "Your enquiry has been submitted successfully.",
-    });
+    // Check login token
+    const token = localStorage.getItem("token");
 
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      support: "",
-      message: "",
-      agree: true,
-    });
+    if (!token) {
+      navigate("/LogIn", {
+        replace: true,
+        state: {
+          message:
+            "Please log in to your Broget Agriculture account before submitting your enquiry.",
+          type: "error",
+        },
+      });
+      return;
+    }
 
-  } catch (error) {
-    console.error("Contact form submission error:", error);
+    try {
+      setLoading(true);
+      setSubmitMessage({ type: "", text: "" });
 
-    setSubmitMessage({
-      type: "error",
-      text: error.message || "Something went wrong. Please try again.",
-    });
+      const response = await fetch(
+        "http://localhost:3000/api/contact",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            phone: formData.phone.trim(),
+            message: `Support Required: ${formData.support}\n\n${formData.message}`,
+          }),
+        }
+      );
 
-  } finally {
-    setLoading(false);
-  }
-};
+      const data = await response.json();
+
+      // Handle expired or invalid login session
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        window.dispatchEvent(new Event("authChanged"));
+
+        navigate("/LogIn", {
+          replace: true,
+          state: {
+            message:
+              "Your login session has expired. Please log in again to submit your enquiry.",
+            type: "error",
+          },
+        });
+
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Unable to submit your enquiry."
+        );
+      }
+
+      // Successful submission
+      setSubmitMessage({
+        type: "success",
+        text:
+          data.message ||
+          "Your enquiry has been submitted successfully.",
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        support: "",
+        message: "",
+        agree: true,
+      });
+    } catch (error) {
+      console.error("Contact form submission error:", error);
+
+      setSubmitMessage({
+        type: "error",
+        text:
+          error.message ||
+          "Something went wrong. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -159,6 +198,7 @@ const [submitMessage, setSubmitMessage] = useState({
                       Prinsengracht 890, 00000000 PM Amsterdam
                       <br />
                       Sambhajinagar
+                      <br />
                       Pin Code : 431111
                     </p>
                   </div>
@@ -244,15 +284,18 @@ const [submitMessage, setSubmitMessage] = useState({
               </div>
             </div>
 
+            {/* CONTACT FORM */}
             <form className="contact-form" onSubmit={handleSubmit}>
+
               {submitMessage.text && (
-  <div
-    className={`contact-alert ${submitMessage.type}`}
-    role="alert"
-  >
-    {submitMessage.text}
-  </div>
-)}
+                <div
+                  className={`contact-alert ${submitMessage.type}`}
+                  role="alert"
+                >
+                  {submitMessage.text}
+                </div>
+              )}
+
               <div className="contact-input-grid">
                 <input
                   type="text"
@@ -297,18 +340,23 @@ const [submitMessage, setSubmitMessage] = useState({
                   <option value="" disabled>
                     You need support with?
                   </option>
+
                   <option value="Agricultural Services">
                     Agricultural Services
                   </option>
+
                   <option value="Government Schemes">
                     Government Schemes
                   </option>
+
                   <option value="Crop Information">
                     Crop Information
                   </option>
+
                   <option value="General Enquiry">
                     General Enquiry
                   </option>
+
                   <option value="Other">Other</option>
                 </select>
               </div>
@@ -343,24 +391,24 @@ const [submitMessage, setSubmitMessage] = useState({
                   <span>Agree to our terms and conditions</span>
                 </label>
 
-               <button
-  type="submit"
-  className="contact-submit-btn"
-  disabled={loading}
->
-  <span>
-    {loading ? "Submitting..." : "Send Message"}
-  </span>
+                <button
+                  type="submit"
+                  className="contact-submit-btn"
+                  disabled={loading}
+                >
+                  <span>
+                    {loading ? "Submitting..." : "Send Message"}
+                  </span>
 
-  {!loading && (
-    <span
-      className="contact-submit-arrow"
-      aria-hidden="true"
-    >
-      ›
-    </span>
-  )}
-</button>
+                  {!loading && (
+                    <span
+                      className="contact-submit-arrow"
+                      aria-hidden="true"
+                    >
+                      ›
+                    </span>
+                  )}
+                </button>
               </div>
             </form>
           </div>

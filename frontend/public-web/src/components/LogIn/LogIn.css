@@ -2,8 +2,31 @@
 /* =================================
    BROGET AGRICULTURE LOGIN SECTION
 ================================= */
-/* Login Role Dropdown */
 
+.broget-login-error {
+  color: #c62828;
+  background: #fff0f0;
+  border: 1px solid #ffcaca;
+  padding: 12px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.broget-login-success {
+  color: #1b5937;
+  background: #eaf7ee;
+  border: 1px solid #a9d9b6;
+  padding: 12px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+
+/* Login Role Dropdown */
 .broget-login-field {
   position: relative;
   width: 100%;
