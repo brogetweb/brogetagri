@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL } from "../../config/api";
 import "./LogIn.css";
 
 const LogIn = () => {
@@ -42,7 +43,7 @@ const LogIn = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
+        `${API_BASE_URL}/api/auth/login`,
         formData
       );
 
@@ -206,6 +207,8 @@ const LogIn = () => {
               required
             >
               <option value="farmer">Login as Farmer</option>
+              <option value="buyer">Login as Buyer</option>
+              <option value="agricultureExpert">Login as Agriculture Expert</option>
               <option value="admin">Login as Admin</option>
             </select>
           </div>

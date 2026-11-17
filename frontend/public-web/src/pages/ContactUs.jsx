@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AllPagesBanner from "../components/Banner/AllPagesBanner";
 import contactBanner from "../assets/images/Home-Banner/1.png";
+import { API_BASE_URL } from "../config/api";
 import "./ContactUs.css";
 
 const ContactUs = () => {
@@ -68,7 +69,7 @@ const ContactUs = () => {
       setSubmitMessage({ type: "", text: "" });
 
       const response = await fetch(
-        "http://localhost:3000/api/contact",
+        `${API_BASE_URL}/api/contact`,
         {
           method: "POST",
           headers: {

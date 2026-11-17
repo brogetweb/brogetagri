@@ -1,6 +1,5 @@
 
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 
@@ -8,6 +7,7 @@ import authRoutes from "./routes/authRoutes.js";
 import contactRoute from "./routes/contactRoute.js";
 import testimonialRoutes from "./routes/testimonialRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
+import connectDB from "./config/db.js";
 
 dotenv.config();
 
@@ -37,23 +37,24 @@ app.use((req, res) => {
 });
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
+const HOST = "0.0.0.0";
 
 const startServer = async () => {
   try {
     if (!process.env.MONGO_URI) {
-      throw new Error("MONGO_URI is missing in .env file");
+      throw new Error("MONGO_URI is missing. Set it in the environment.");
     }
 
-    await mongoose.connect(process.env.MONGO_URI);
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET is missing. Set it in the environment.");
+    }
 
-    console.log("MongoDB Connected Successfully");
+    await connectDB();
 
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-      console.log(`API: http://localhost:${PORT}`);
+    app.listen(PORT, HOST, () => {
+      console.log(`Server running on ${HOST}:${PORT}`);
     });
-
   } catch (error) {
     console.error("Server Startup Error:", error.message);
     process.exit(1);

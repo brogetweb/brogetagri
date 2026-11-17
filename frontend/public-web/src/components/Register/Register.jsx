@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL } from "../../config/api";
 import "./Register.css";
 
 function Register() {
@@ -50,7 +51,7 @@ function Register() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:3000/api/auth/register",
+        `${API_BASE_URL}/api/auth/register`,
         {
           name: formData.name.trim(),
           email: formData.email.trim().toLowerCase(),
@@ -157,7 +158,8 @@ function Register() {
               required
             >
               <option value="farmer">Register as Farmer</option>
-              <option value="admin">Register as Admin</option>
+              <option value="buyer">Register as Buyer</option>
+              <option value="agricultureExpert">Register as Agriculture Expert</option>
             </select>
           </div>
 
