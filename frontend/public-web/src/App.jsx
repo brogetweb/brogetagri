@@ -19,6 +19,7 @@ import GovernmentSchemes from "./components/GovernmentSchemes";
 import WhyChooseUs from "./pages/WhyChooseUs";
 import OurTeam from "./pages/OurTeam";
 import Testimonial from "./pages/Testimonial";
+import Blog from "./pages/Blog";
 import LogIn from "./components/LogIn/LogIn";
 import Register from "./components/Register/Register";
 
@@ -83,6 +84,7 @@ export default function App() {
 
 <Route path="/OurTeam" element={< OurTeam/>} />
 <Route path="/Testimonial" element={<Testimonial />} />
+<Route path="/Blog" element={< Blog/>} />
 {/* <Route path="/BuilderDemo" element={<BuilderDemo />} /> */}
 <Route path="/LogIn" element={<LogIn />} />
 <Route path="/Register" element={<Register />} />
